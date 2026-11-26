@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Why Do We Travel? — 문학으로 읽는 여행 마인드맵</title>
-<meta name="description" content="몽테뉴·카뮈·헤세·존슨 등 여행 문학을 키워드로 엮은 인터랙티브 마인드맵. AI 시대에 인간에게 여행이 왜 필요한가를 묻는 연구 아카이브.">
+<meta name="description" content="몽테뉴·카뮈·보통 등 여행 문학 10권 61건의 색인을 키워드로 엮은 인터랙티브 마인드맵. AI 시대에 인간에게 여행이 왜 필요한가를 묻는 연구 아카이브.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Why Do We Travel? — 문학으로 읽는 여행 마인드맵">
-<meta property="og:description" content="AI 시대, 몸으로 겪는 여행의 의미를 고전 문학과 인문·사회과학 텍스트로 탐색하는 인터랙티브 아카이브.">
+<meta property="og:description" content="AI 시대, 몸으로 겪는 여행의 의미를 고전 문학과 인문·사회과학 텍스트로 탐색하는 인터랙티브 아카이브. 10권 61건 색인 수록.">
 <meta property="og:locale" content="ko_KR">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -17,7 +17,11 @@
     --paper-deep:#E8E1D1;
     --ink:#2B2620;
     --ink-soft:#5B5346;
+    --ink-faint:#8B8474;
     --line:#B8AF9E;
+    --accent:#7A4E3A;
+    --sage:#5E6E46;
+    --amber:#B5833A;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -41,6 +45,18 @@
   }
   header p{ font-size:14px; color:var(--ink-soft); margin:0; font-weight:300; }
   header .hint{ margin-top:10px; font-size:12.5px; color:var(--ink-soft); font-weight:300; }
+
+  /* ---------- view tabs ---------- */
+  .tabs{ display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin:22px auto 4px; padding:0 20px; }
+  .tab{
+    font-family:'Noto Serif KR', serif; font-size:13.5px; letter-spacing:0.01em;
+    padding:9px 22px; border:1.3px solid var(--line); border-radius:999px;
+    background:transparent; color:var(--ink-soft); cursor:pointer;
+    transition:background .18s ease, color .18s ease, border-color .18s ease;
+  }
+  .tab:hover{ border-color:var(--ink); color:var(--ink); }
+  .tab.active{ background:var(--ink); border-color:var(--ink); color:var(--paper); }
+  .tab .cnt{ font-family:'Noto Sans KR',sans-serif; font-size:11px; opacity:.72; margin-left:5px; letter-spacing:.02em; }
 
   .stage{
     position:relative;
@@ -127,6 +143,88 @@
   .overlay{ position:fixed; inset:0; background:rgba(43,38,32,0.15); opacity:0; pointer-events:none; transition:opacity .3s ease; z-index:19; }
   .overlay.open{ opacity:1; pointer-events:auto; }
 
+  /* ---------- view switching ---------- */
+  #mapView.off{ display:none; }
+  #indexView{ display:none; }
+  #indexView.on{ display:block; }
+
+  /* ---------- index view ---------- */
+  .idx-wrap{ max-width:960px; margin:0 auto; padding:34px 24px 80px; }
+  .idx-head{ border-bottom:1.5px solid var(--ink); padding-bottom:22px; margin-bottom:20px; }
+  .idx-kicker{ font-size:10.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); font-weight:600; margin:0 0 10px; }
+  .idx-head h2{ font-family:'Noto Serif KR',serif; font-size:clamp(21px,3vw,27px); margin:0 0 10px; font-weight:700; }
+  .idx-lead{ font-size:13.5px; color:var(--ink-soft); font-weight:300; margin:0; max-width:690px; line-height:1.75; word-break:keep-all; }
+  .idx-stats{ display:flex; flex-wrap:wrap; gap:6px 22px; margin-top:16px; font-size:11.5px; color:var(--ink-soft); }
+  .idx-stats b{ font-family:'Noto Serif KR',serif; color:var(--ink); font-size:15px; margin-right:4px; }
+
+  .filters{
+    position:sticky; top:0; z-index:12;
+    background:var(--paper);
+    padding:14px 0 12px; margin-bottom:20px;
+    border-bottom:1px solid var(--line);
+    box-shadow:0 10px 12px -14px rgba(43,38,32,.5);
+  }
+  .f-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:9px; }
+  .f-row:last-child{ margin-bottom:0; }
+  .f-label{ font-size:10.5px; letter-spacing:0.08em; color:var(--ink-faint); min-width:46px; font-weight:500; }
+  select#fBook, input#fSearch{
+    font-family:'Noto Sans KR',sans-serif; font-size:12.5px; color:var(--ink);
+    background:var(--paper); border:1.2px solid var(--line); border-radius:6px; padding:7px 10px;
+  }
+  select#fBook{ min-width:220px; max-width:100%; }
+  input#fSearch{ flex:1; min-width:160px; }
+  input#fSearch::placeholder{ color:#9E9787; }
+  input#fSearch:focus, select#fBook:focus{ outline:none; border-color:var(--ink); }
+  .chip{
+    font-size:11.5px; padding:5px 12px; border-radius:999px; border:1.1px solid var(--line);
+    background:transparent; color:var(--ink-soft); cursor:pointer;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+    font-family:'Noto Sans KR',sans-serif;
+  }
+  .chip:hover{ border-color:var(--ink); color:var(--ink); }
+  .chip.on{ background:var(--ink); border-color:var(--ink); color:var(--paper); }
+  .chip .n{ font-size:10px; opacity:.65; margin-left:4px; }
+  .f-reset{ font-size:11.5px; background:none; border:none; color:var(--accent); cursor:pointer; text-decoration:underline; text-underline-offset:3px; padding:0; }
+  .f-count{ font-size:11.5px; color:var(--ink-soft); margin-left:auto; font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+  .entry{
+    border:1.1px solid var(--line); border-left:4px solid var(--line);
+    border-radius:7px; background:rgba(255,255,255,0.32);
+    padding:15px 18px 13px; margin-bottom:12px;
+  }
+  .entry.g-strong{ border-left-color:var(--sage); }
+  .entry.g-mid{ border-left-color:var(--amber); }
+  .entry.g-weak{ border-left-color:#9E9787; }
+  .entry.g-none{ border-left-color:#D2CABA; }
+  .e-top{ display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 9px; margin-bottom:8px; }
+  .e-no{ font-family:'Noto Serif KR',serif; font-size:11.5px; color:var(--accent); font-weight:600; font-variant-numeric:tabular-nums; }
+  .e-book{ font-family:'Noto Serif KR',serif; font-size:15px; font-weight:600; line-height:1.4; }
+  .e-author{ font-size:11.5px; color:var(--ink-faint); font-weight:300; }
+  .e-pages{ font-size:11.5px; color:var(--ink-soft); margin-left:auto; white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .e-quote{
+    font-family:'Noto Serif KR',serif; font-size:13.5px; line-height:1.72; margin:0 0 8px;
+    padding-left:12px; border-left:2px solid #D8CFBC; color:#3A342C; word-break:keep-all;
+  }
+  .e-quote.missing{ font-family:'Noto Sans KR',sans-serif; font-size:12px; color:#9E9787; font-weight:300; }
+  .e-sum{ font-size:12.5px; line-height:1.74; color:var(--ink); font-weight:300; margin:0 0 10px; word-break:keep-all; }
+  .e-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:9px; }
+  .tag-theme{ font-size:11px; padding:3px 9px; border-radius:4px; background:#E4DCC9; color:#4A4237; line-height:1.5; }
+  .tag-form{ font-size:11px; padding:3px 9px; border-radius:4px; border:1px solid #B8AF9E; color:#5B5346; line-height:1.5; }
+  .tag-none{ font-size:11px; padding:3px 9px; border-radius:4px; color:#9E9787; border:1px dashed #CFC7B6; line-height:1.5; }
+  .e-meta{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:7px 20px;
+    border-top:1px dashed var(--line); padding-top:9px; font-size:11.5px;
+  }
+  .e-meta dt{ font-size:10px; letter-spacing:0.05em; color:var(--ink-faint); margin-bottom:1px; }
+  .e-meta dd{ margin:0; color:var(--ink); font-weight:400; line-height:1.55; word-break:keep-all; }
+  .e-grade{ font-size:10.5px; padding:1px 7px; border-radius:3px; border:1px solid var(--line); color:var(--ink-soft); white-space:nowrap; }
+  .e-grade.s{ border-color:var(--sage); color:var(--sage); }
+  .e-grade.m{ border-color:var(--amber); color:var(--amber); }
+  .idx-empty{ display:none; text-align:center; font-size:13px; color:var(--ink-faint); padding:50px 0; font-weight:300; }
+  .idx-empty.on{ display:block; }
+
+  footer{ text-align:center; padding:0 24px 40px; font-size:12px; color:var(--ink-soft); font-weight:300; }
+
   @media (max-width:640px){
     .panel{ width:100%; left:0; right:0; top:auto; bottom:0; height:auto; max-height:72vh; border-left:none; border-top:1.5px solid var(--line); border-radius:16px 16px 0 0; transform:translateY(100%); }
     .panel.open{ transform:translateY(0); }
@@ -135,6 +233,14 @@
     .node.kw1 .k-title{ font-size:11.5px; }
     .node.kw2{ max-width:92px; font-size:10px; padding:5px 8px; }
     .node.work{ max-width:82px; font-size:9px; padding:4px 7px; }
+    .idx-wrap{ padding:26px 16px 60px; }
+    .tab{ font-size:12.5px; padding:8px 16px; }
+    .entry{ padding:14px 14px 12px; }
+    .e-pages{ margin-left:0; }
+    .e-meta{ grid-template-columns:1fr; }
+    select#fBook{ min-width:0; width:100%; }
+    .f-label{ min-width:auto; }
+    .f-count{ margin-left:0; }
   }
 </style>
 </head>
@@ -144,17 +250,56 @@
   <h1>여행 마인드맵</h1>
   <p>Why Do We Travel? · 키워드 중심 여행 인사이트 아카이브</p>
   <p class="hint">키워드 → 측면 → 작가/작품 순으로 클릭해 펼치고, 작품을 클릭해 세부 내용을 확인하세요</p>
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-view="map">마인드맵 보기</button>
+    <button class="tab" data-view="index">전체 색인표 <span class="cnt">61건</span></button>
+  </nav>
 </header>
 
-<div class="stage" id="stage">
-  <svg class="lines" id="lines" viewBox="0 0 1000 1000"></svg>
+<div id="mapView">
+  <div class="stage" id="stage">
+    <svg class="lines" id="lines" viewBox="0 0 1000 1000"></svg>
+  </div>
+
+  <div class="legend" id="legend"></div>
 </div>
 
-<div class="legend" id="legend"></div>
+<section id="indexView">
+  <div class="idx-wrap">
+    <div class="idx-head">
+      <p class="idx-kicker">Index · 61 entries</p>
+      <h2>전체 색인표 61건</h2>
+      <p class="idx-lead">10권의 텍스트에서 뽑은 61개 구절을 6개의 질문 축과 3가지 앎의 양식으로 분류한 표입니다. 도서·테마·양식으로 걸러 보거나, 원문과 요약을 검색할 수 있습니다. 알랭 드 보통 『여행의 기술』 22건은 마인드맵 노드에도 반영되어 있습니다.</p>
+      <div class="idx-stats">
+        <span><b>61</b> 항목</span>
+        <span><b>10</b> 텍스트</span>
+        <span><b>23</b> 논증 강도 ‘강’</span>
+        <span><b>22</b> 알랭 드 보통</span>
+      </div>
+    </div>
 
-<footer style="text-align:center;padding:0 24px 40px;font-size:12px;color:var(--ink-soft);font-weight:300;">
-  인문학 아카이브 × 웹 구현 · 한희정<br>
-  <a href="https://www.linkedin.com/in/YOUR-ID" style="color:inherit">LinkedIn</a>
+    <div class="filters" id="filters">
+      <div class="f-row">
+        <span class="f-label">도서</span>
+        <select id="fBook" aria-label="도서 필터"></select>
+        <button class="f-reset" id="fReset">초기화</button>
+      </div>
+      <div class="f-row" id="fThemeRow"><span class="f-label">6테마</span></div>
+      <div class="f-row" id="fFormRow"><span class="f-label">3양식</span></div>
+      <div class="f-row">
+        <span class="f-label">검색</span>
+        <input id="fSearch" type="search" placeholder="원문 · 요약 · 메커니즘 검색" autocomplete="off">
+        <span class="f-count" id="fCount">61건</span>
+      </div>
+    </div>
+
+    <div id="idxList"></div>
+    <p class="idx-empty" id="idxEmpty">조건에 맞는 항목이 없습니다.</p>
+  </div>
+</section>
+
+<footer>
+  인문학 아카이브 × 웹 구현 · 한희정
 </footer>
 <div class="overlay" id="overlay"></div>
 <aside class="panel" id="panel">
@@ -178,7 +323,8 @@ const KEYWORDS = [
       { id:'self-ref', label:'자아성찰적 측면', works:[
         { title:'몽테뉴 『에세』', detail:'아무리 멀리 가도 결국 자기 자신을 데리고 다닐 수밖에 없다는 스토아적 통찰. 여행은 자신으로부터의 도피가 될 수 없다는 원형적 명제다.' },
         { title:'라셀라스 · 새뮤얼 존슨', detail:'여섯 텍스트 중 유일하게 몽테뉴의 스토아적 전제가 반박 없이 그대로 확인된다. 관찰을 통한 여행조차 자기 자신의 한계를 벗어나지 못한다.' },
-        { title:'카뮈 여행산문', detail:'몽테뉴가 쓴 "자기 노출"의 비유를 이어받아, 이를 불안한 부조리와의 대면으로 급진화한다. 벌거벗음은 편안한 자기 인식이 아니라 실존적 위협이 된다.' }
+        { title:'카뮈 여행산문', detail:'몽테뉴가 쓴 "자기 노출"의 비유를 이어받아, 이를 불안한 부조리와의 대면으로 급진화한다. 벌거벗음은 편안한 자기 인식이 아니라 실존적 위협이 된다.' },
+        { title:'보통 『여행의 기술』 · 40쪽', meta:'기대에 대하여 §7 · 40쪽 · No.40 · 논증 강도 강 · 몽테뉴 5번(191쪽)의 현대적 변주', detail:'기대에 부풀어 떠난 여행도 "기본적인 심리적 매듭 몇 개로 그 성과를 물거품으로 만들 수 있다"(40쪽). 호텔을 짓고 만을 준설하는 거대한 성취도 심리적 매듭 앞에서는 무력해진다는 관찰이다. 행복의 핵심은 물질이나 미학이 아니라 심리라는 고대 철학자들의 주장을 불러오며, 어디를 가든 자신을 데려간다는 몽테뉴의 명제를 현장 사례로 증명한다.' }
       ]}
     ]
   },
@@ -187,11 +333,13 @@ const KEYWORDS = [
     aspects:[
       { id:'p-move', label:'이동 자체가 목적', works:[
         { title:'몽테뉴 『에세』', detail:'목적지에 도달하기 위한 수단이 아니라, 움직인다는 행위 자체가 여행의 본질이라는 태도. 이후 텍스트들이 비교·반박하는 원형적 기준이 된다.' },
-        { title:'문방구 에세이', detail:'문구라는 취향은 뚜렷하지만, 그것을 찾아가는 방식은 계획이 아니라 감각적 이끌림에 맡겨진다. 목적은 미니멀하고 경로는 열려 있다.' }
+        { title:'문방구 에세이', detail:'문구라는 취향은 뚜렷하지만, 그것을 찾아가는 방식은 계획이 아니라 감각적 이끌림에 맡겨진다. 목적은 미니멀하고 경로는 열려 있다.' },
+        { title:'보통 『여행의 기술』 · 78쪽', meta:'여행 장소에 대하여 · 78쪽 · No.46-48 · 논증 강도 강 · 6테마 외 축 ‘이동-사유 결합’ 후보', detail:'"여행은 생각의 산파이다"(78쪽). 움직이는 비행기·배·기차만큼 내적 대화를 쉽게 이끌어내는 장소는 드물고, "큰 생각은 큰 광경을 요구하고, 새로운 생각은 새로운 장소를 요구한다." 흘러가는 풍경이 사유를 여는 조건이 되며, 정신의 일부가 다른 일을 하는 동안 어려운 생각이 의식에 떠오른다는 메커니즘도 함께 서술된다. AI에 사고를 맡기는 것과 정반대 방향의 주장이자, 홍진기 『사고외주』와 맞물리는 지점이다.' }
       ]},
       { id:'p-goal', label:'목표지향적 여행', works:[
         { title:'꾸뻬 씨의 행복 여행 · 프랑수아 를로르', detail:'몽테뉴적 통찰이 "행복의 원칙 목록"이라는 명확한 목표로 압축·재포장된다. 여행이 답을 얻기 위한 도구가 된다.' },
-        { title:'라셀라스 · 새뮤얼 존슨', detail:'행복을 찾겠다는 뚜렷한 목적으로 세상을 관찰하지만, 목적이 있다고 답을 얻는 것은 아니라는 회의적 결론에 이른다.' }
+        { title:'라셀라스 · 새뮤얼 존슨', detail:'행복을 찾겠다는 뚜렷한 목적으로 세상을 관찰하지만, 목적이 있다고 답을 얻는 것은 아니라는 회의적 결론에 이른다.' },
+        { title:'보통 『여행의 기술』 · 40–41쪽', meta:'기대에 대하여 §8 · 40-41쪽 · No.42-45 · 논증 강도 강 · 프로젝트 논지에 대한 최강 반론 후보', detail:'데제생트는 네덜란드 여행 뒤 다시는 해외여행을 시도하지 않고, 집 벽에 여행사 진열장처럼 채색 인쇄물을 걸고 항해 일정표를 액자에 넣어 둔다(40쪽). 위스망스를 빌려 "상상력은 실제 경험이라는 천박한 현실보다 훨씬 더 나은 대체물을 제공할 수 있다"고 결론 내리고(41쪽), 보통은 그 경고에도 여행을 떠났지만 "상상력의 자극을 받는 것보다 더 나은 여행은 없을지도 모른다"고 고백한다(41쪽). 상상이 이동을 대체할 수 있다는 주장의 고전적 형태이며, 메스트르의 반례 트랙과 짝을 이룬다.' }
       ]}
     ]
   },
@@ -215,7 +363,8 @@ const KEYWORDS = [
         { title:'문방구 에세이', detail:'가이드북식 정보가 아니라 문구라는 사물을 매개로 도쿄·뉴욕·베트남의 성격을 감각적으로 포착한다. 관찰이 아니라 반복된 마주침을 통한 개방성이다.' }
       ]},
       { id:'c-contra', label:'자기모순 · 동화의 한계', works:[
-        { title:'몽테뉴 『에세』', detail:'낯선 문화를 개방적으로 받아들이려 하면서도 동시에 자신의 습관을 완전히 버리지 못하는 이중적 태도. 개방성과 정체성 사이의 긴장이다.' }
+        { title:'몽테뉴 『에세』', detail:'낯선 문화를 개방적으로 받아들이려 하면서도 동시에 자신의 습관을 완전히 버리지 못하는 이중적 태도. 개방성과 정체성 사이의 긴장이다.' },
+        { title:'보통 『여행의 기술』 · 102쪽', meta:'이국적인 것에 대하여 §3-4 · 102쪽 · No.51-52 · 논증 강도 중 · 몽테뉴 3번(186, 189쪽)과 연결', detail:'외국에서 이국적으로 느끼는 것은 낯섦 자체보다 "고향에서 갈망했으나 얻지 못한 것일 수도 있는 것"(102쪽). 보통이 암스테르담에 열광한 이유도 영국에 대한 불만이었고, 플로베르가 이집트를 귀중하게 여긴 것은 프랑스 부르주아지에 대한 분노의 이면이었다. 이국 동경이 고향 혐오와 짝을 이룬다는 것 — 개방성의 동기가 곧 자기 결핍이라는 몽테뉴적 자기모순의 현대적 반복이다.' }
       ]}
     ]
   },
@@ -223,7 +372,9 @@ const KEYWORDS = [
     id:'company', label:'동행과 고독', color:'#7A5C8E',
     aspects:[
       { id:'co-with', label:'동행', works:[
-        { title:'몽테뉴 『에세』', detail:'함께 여행하는 이와의 관계가 자아 인식에 미치는 영향. 다만 고독과의 긴장 속에서만 의미를 갖는다.' }
+        { title:'몽테뉴 『에세』', detail:'함께 여행하는 이와의 관계가 자아 인식에 미치는 영향. 다만 고독과의 긴장 속에서만 의미를 갖는다.' },
+        { title:'보통 『여행의 기술』 · 40쪽', meta:'기대에 대하여 §7 · 40쪽 · No.41 · 논증 강도 중 · 몽테뉴 4번(190-191쪽)과 대비', detail:'해변 공원에서 동행자(M)와 다툰 뒤에는 "호사스러운 바비큐 파티도 하찮고 의미 없는 일이 되어버린 지 오래였다"(40쪽). 환경의 질보다 동행과의 관계 상태가 경험의 가치를 좌우한다는 현장 기록이다. 몽테뉴가 동행의 질에 까다로운 기준을 두고 조심스럽게 경계한 것과 달리, 보통은 동행의 불화가 여행 전체를 무너뜨리는 장면을 그대로 남긴다.' },
+        { title:'보통 『여행의 기술』 · 195쪽', meta:'시골과 도시에 대하여 · 194-195쪽 · No.57 · 논증 강도 강 · 몽테뉴 5번의 반명제', detail:'절벽의 웅장함과 규모는 우리 안의 고결한 것을 일으키고, 경외 속에서 우리를 넘어서는 것을 존중하게 한다. 워즈워스는 자연 속에서 살며 성격이 "경쟁, 질투, 불안에 저항하는 쪽으로 형성되어갔다"고 했고(195쪽), 절벽 위에 선 두 사람은 자연과의 관계뿐 아니라 서로의 관계도 바꿀 수 있다고 본다. 같은 거대함 앞에서 카뮈가 위협을 느낀 것과 대조적으로, 여기서는 겸손과 관계의 변화가 된다.' }
       ]},
       { id:'co-alone', label:'고독', works:[
         { title:'몽테뉴 『에세』', detail:'홀로 여행하는 상태와 동행 사이를 오가며, 어느 한쪽으로 완전히 기울지 않는다.' },
@@ -236,10 +387,12 @@ const KEYWORDS = [
     id:'time', label:'시간과 죽음', color:'#4F5768',
     aspects:[
       { id:'t-old', label:'노년의 여행', works:[
-        { title:'몽테뉴 『에세』', detail:'나이 들어서도 떠나는 것의 의미. 젊은 시절의 여행과는 다른 동기와 태도를 요구한다.' }
+        { title:'몽테뉴 『에세』', detail:'나이 들어서도 떠나는 것의 의미. 젊은 시절의 여행과는 다른 동기와 태도를 요구한다.' },
+        { title:'보통 『여행의 기술』 · 204쪽', meta:'숭고함에 대하여 §1 · 204쪽 · No.58-59 · 논증 강도 강 · 6테마 외 축 ‘실존적 유한성·우연성’', detail:'사막행 비행기 안에서 읽은 파스칼의 문장 — "누가 나를 여기에 가져다놓았는가?"(204쪽). 자신이 차지한 작은 공간을 둘러싼 무한한 공간을 생각하며, 저기가 아닌 여기, 다른 때가 아닌 지금 존재할 이유가 없다는 사실에 놀란다. 한편 "큰 사막 이름(모하비, 칼라하리, 타클라마칸, 고비)만 들어도 마음이 움직인" 동경이 실제 전세 항공편 예약으로 이어졌다는 기록도 같은 쪽에 있다. 상상이 이동을 대체한 데제생트와 정반대로, 매개된 이미지가 이동을 촉발한 사례다.' }
       ]},
       { id:'t-death', label:'죽음과의 대면', works:[
-        { title:'몽테뉴 『에세』', detail:'여행을 통해 죽음을 마주하는 태도. 육체의 쇠퇴 속에서도 이동을 멈추지 않는 것의 의미다. (다른 텍스트에서는 아직 다뤄지지 않음 — 추가 예정)' }
+        { title:'몽테뉴 『에세』', detail:'여행을 통해 죽음을 마주하는 태도. 육체의 쇠퇴 속에서도 이동을 멈추지 않는 것의 의미다. (다른 텍스트에서는 아직 다뤄지지 않음 — 추가 예정)' },
+        { title:'보통 『여행의 기술』 · 228쪽', meta:'숭고함에 대하여 결론부 · 228쪽 · No.60-61 · 논증 강도 강 · 마인드맵 ‘죽음과의 대면’의 두 번째 텍스트', detail:'"숭고한 장소들은 부드럽게 우리를 다독여 한계를 인정하게 한다"(228쪽). 한계에 부딪히면 보통 불안과 분노가 생기지만, 자연의 광대한 공간 앞에서는 삶을 힘겹게 만드는 사건들, "필연적으로 우리를 먼지로 돌려보낼 크고 헤아릴 수 없는 사건들"도 좀더 담담하게 받아들일 수 있다. 몽테뉴가 죽음을 감수하는 태도였다면, 보통은 자연 속 시간이 죽음 같은 큰 사건을 담담히 받는 심리적 준비가 된다 — 방향의 차이다.' }
       ]}
     ]
   },
@@ -248,7 +401,8 @@ const KEYWORDS = [
     aspects:[
       { id:'m-obs', label:'관찰', works:[
         { title:'라셀라스 · 새뮤얼 존슨', detail:'체화된 경험보다 세상을 관찰하고 판단하는 이성적 태도가 중심이 된다. 계몽주의적 여행관의 전형이다.' },
-        { title:'내 방 여행하는 법 · 메스트르', meta:'1장 11·13·16쪽 · 3장 17쪽 · 8장 37·39쪽', detail:'방 안에 머문 42일을 여행으로 규정하고(11쪽), 먼 길을 수고롭게 떠나는 여행자를 비웃으며 번거로움도 비용도 없는 여행을 권한다(16쪽). 성격과 재산, 나이와 상관없이 양식만 있으면 누구나 같은 여행을 할 수 있다고도 말한다(13쪽). 그러나 정작 바깥출입은 마음대로 할 수 없었다고 털어놓아 선택이 아닌 강제 체류였음이 드러나고(17쪽), 영혼만의 여행이 바람직하고 유용하다면서도 불리한 점이 있다고 인정하고(37쪽), 영혼이 여행을 떠난 사이 몸이 뜨거운 부집게를 잡아 손가락을 데는 일화(39쪽)로 몸의 대가가 완전히 사라지지 않음을 보여준다. 관찰과 상상 중심 여행의 경계 사례이자, 체화된 경험과 조우가 왜 필요한지를 대조로 드러내는 텍스트다.' }
+        { title:'내 방 여행하는 법 · 메스트르', meta:'1장 11·13·16쪽 · 3장 17쪽 · 8장 37·39쪽', detail:'방 안에 머문 42일을 여행으로 규정하고(11쪽), 먼 길을 수고롭게 떠나는 여행자를 비웃으며 번거로움도 비용도 없는 여행을 권한다(16쪽). 성격과 재산, 나이와 상관없이 양식만 있으면 누구나 같은 여행을 할 수 있다고도 말한다(13쪽). 그러나 정작 바깥출입은 마음대로 할 수 없었다고 털어놓아 선택이 아닌 강제 체류였음이 드러나고(17쪽), 영혼만의 여행이 바람직하고 유용하다면서도 불리한 점이 있다고 인정하고(37쪽), 영혼이 여행을 떠난 사이 몸이 뜨거운 부집게를 잡아 손가락을 데는 일화(39쪽)로 몸의 대가가 완전히 사라지지 않음을 보여준다. 관찰과 상상 중심 여행의 경계 사례이자, 체화된 경험과 조우가 왜 필요한지를 대조로 드러내는 텍스트다.' },
+        { title:'보통 『여행의 기술』 · 146쪽', meta:'호기심에 대하여 · 146쪽 · No.53 · 논증 강도 강 · 6테마 외 축 ‘지식의 목적’ 후보', detail:'니체를 빌려 사실 수집과 삶을 고양하는 지식의 활용을 구분하며, "나의 발견은 나에게 생기를 주어야 했다"고 말한다(146쪽). 가르치기만 하는 지식을 배격하고, 여행 중 얻은 지식이 삶을 어떻게 바꾸는지를 묻는다. 정보를 모으는 관찰이 AI로 대체되는 지점과, 삶을 위한 지식이 남는 지점을 가르는 고전적 출처다.' }
       ]},
       { id:'m-embodied', label:'체화된 경험', works:[
         { title:'싯다르타 · 헤르만 헤세', detail:'강물이라는 신체화된 시간의 경험이 지식 획득의 방식이 된다.' },
@@ -256,7 +410,9 @@ const KEYWORDS = [
         { title:'사고외주 · 홍진기', detail:'낯선 곳에 도착해 루틴이 깨지고 감각이 예민해지는 순간, AI보다 자신의 감각과 판단이 먼저 작동한다. AI가 제시하는 결과는 그럴듯해 보이나 실은 학습한 과거의 평균값일 뿐이라는 대비를 통해, 체화된 경험이 왜 대체 불가능한지 인지과학적으로 뒷받침한다.' }
       ]},
       { id:'m-encounter', label:'조우', works:[
-        { title:'문방구 에세이', detail:'반복적이고 우연한 마주침이 누적되어 도시에 대한 인식을 형성한다. AI가 대체하기 가장 어려운 앎의 양식이다.' }
+        { title:'문방구 에세이', detail:'반복적이고 우연한 마주침이 누적되어 도시에 대한 인식을 형성한다. AI가 대체하기 가장 어려운 앎의 양식이다.' },
+        { title:'보통 『여행의 기술』 · 84쪽', meta:'여행 장소에 대하여 §8 · 84쪽 · No.49-50 · 논증 강도 강 · 휴게소·모텔·공항의 불편함', detail:'휴게소·모텔·공항은 건축적으로 불안하고 불편하며 색채와 조명도 거슬리지만, 우리는 그곳에서 "이기적인 편안함이나 습관이나 제약과는 다른 어떤 것을 느낄 수 있을 것"이라 은연중에 기대하며 끌린다(84쪽). 레이먼드 윌리엄스에 따르면 방랑에 가치를 부여하는 감수성은 약 200년 전에 생겨났고, 그 결과 "외부인은 내부인보다 도덕적으로 우월한 위치를 차지하게 되었다." 계획할 수 없는 마주침이 일상의 습관을 벗겨내는 경험이다.' },
+        { title:'보통 『여행의 기술』 · 194쪽', meta:'시골과 도시에 대하여 · 194쪽 · No.56 · 논증 강도 중 · 6테마 외 축 ‘습관·무관심 극복’ 후보', detail:'콜리지는 워즈워스의 천재성을 "일상의 사물에 새로운 매력을 부여하는 것"으로 규정했다(194쪽). 익숙함과 이기적 염려 때문에 눈·귀·마음이 열려 있어도 보고 듣고 느끼지 못한다는 진단이다. 여행은 습관적 무관심의 장막을 걷어 눈앞 세계의 경이를 되찾는 일이며, 카뮈 14번의 "습관의 장막이 걷힌 상태"와 같은 지점을 가리킨다.' }
       ]}
     ]
   },
@@ -264,7 +420,8 @@ const KEYWORDS = [
     id:'function', label:'여행의 사회적 기능', color:'#9C4F6B',
     aspects:[
       { id:'f-civic', label:'시민 형성 · 통과의례', works:[
-        { title:'기나긴 청춘 · 장 비야르', meta:'정책·사회학 트랙 · 4장 · 62-63쪽 (몽테뉴 6테마 외 축)', detail:'국가 정체성은 추상적 교육이 아니라 직접 가 보며 형성된다는 주장. 16세가 된 청년 모두에게 10일간 국내 여행을 성인식 겸 의무로 제도화하자는 제안이다. 여행이 시민이 되는 통과의례로 기능한다.' }
+        { title:'기나긴 청춘 · 장 비야르', meta:'정책·사회학 트랙 · 4장 · 62-63쪽 (몽테뉴 6테마 외 축)', detail:'국가 정체성은 추상적 교육이 아니라 직접 가 보며 형성된다는 주장. 16세가 된 청년 모두에게 10일간 국내 여행을 성인식 겸 의무로 제도화하자는 제안이다. 여행이 시민이 되는 통과의례로 기능한다.' },
+        { title:'보통 『여행의 기술』 · 147쪽', meta:'호기심에 대하여 · 147쪽 · No.54-55 · 논증 강도 중 · 6테마 외 축 ‘소속감·정체성 확인’ 후보 · 비야르 25·28번과 교차', detail:'니체가 구분한 두 가지 여행. 하나는 자기 문화의 우울에서 벗어나 과거의 위대함을 숙고하며 힘을 얻는 여행 — 르네상스의 소수 개인이 "인간이라는 개념을 확장하고 그 개념을 좀더 아름답게 만들었던 것"을 발견하는 여행이다. 다른 하나는 자신이 "과거로부터의 상속자이자 꽃이자 열매"임을 확인하는 여행으로, 오래된 건물 앞에서 자신이 우연적·자의적 존재가 아님을 알고 존재의 정당화를 느낀다. 후자는 비야르의 시민 형성·모국 이해와 정확히 만난다.' }
       ]},
       { id:'f-access', label:'여가 접근 · 제도화', works:[
         { title:'기나긴 청춘 · 장 비야르', meta:'정책·사회학 트랙 · 4장 · 68-69쪽 (몽테뉴 6테마 외 축)', detail:'문화부가 여름에 비는 대학 기숙사를 숙박으로 제공하고, 500유로 상당의 문화 패스로 비용 장벽을 낮추자는 구상. 국토 여행을 도서관·박물관 방문만큼 중요한 문화 접근권으로 본다.' }
@@ -315,7 +472,7 @@ rootEl.addEventListener('click', ()=>{
   openPanel({
     tag:'아카이브 전체', tagColor:'#2B2620',
     title:'여행 아카이브 · 핵심 논지',
-    body:'AI가 노동과 매개된 경험을 더 많이 대체할수록, 몸으로 직접 겪는 경험에 대한 갈증은 오히려 커진다 — 이는 고전 여행 문학이 줄곧 주장해온 바이기도 하다. 이 마인드맵은 여행에 관한 핵심 키워드를 중심으로, 그 키워드가 각 텍스트에서 어떻게 다르게 변주되는지를 보여준다.',
+    body:'AI가 노동과 매개된 경험을 더 많이 대체할수록, 몸으로 직접 겪는 경험에 대한 갈증은 오히려 커진다 — 이는 고전 여행 문학이 줄곧 주장해온 바이기도 하다. 이 마인드맵은 여행에 관한 핵심 키워드를 중심으로, 그 키워드가 각 텍스트에서 어떻게 다르게 변주되는지를 보여준다. 10권 61건의 전체 목록은 위의 [전체 색인표] 탭에서 볼 수 있다.',
     meta:'키워드를 클릭해 펼쳐보세요'
   });
 });
@@ -358,7 +515,7 @@ KEYWORDS.forEach((kw, ki)=>{
     const line2 = addPath(pos1, pos2, kw.color, 'l2');
     aspectLines.push(line2);
 
-    const workSpread = asp.works.length >= 3 ? 40 : 24;
+    const workSpread = asp.works.length >= 3 ? 40 + (asp.works.length - 3) * 12 : 24;
     const wAngles = childAngles(aAngles[ai], asp.works.length, workSpread);
 
     const workEls = [];
@@ -443,6 +600,224 @@ function closePanel(){
 }
 closeBtn.addEventListener('click', closePanel);
 overlay.addEventListener('click', closePanel);
+
+/* =========================================================
+   전체 색인표 (61건)
+   ========================================================= */
+const INDEX_DATA = [
+  {"no": "1", "text": "몽테뉴 『에세』", "author": "미셸 드 몽테뉴", "pages": "179, 185", "quote": "\"여행의 목적은 돌아오기 위해서도, 완수하기 위해서도 아니다.\"", "summary": "목적지·완주가 아니라 움직임이 주는 즐거움 자체가 여행의 전부라는 선언.", "theme": "이동 자체가 목적 vs 목표지향적 여행", "form": "-", "mech": "시간의 비가역성", "strength": "중", "lineage": "원형(출발점)", "note": "6테마 프레임워크의 기준 텍스트"},
+  {"no": "2", "text": "몽테뉴 『에세』", "author": "미셸 드 몽테뉴", "pages": "180, 187", "quote": "\"확실한 선을 미리 그리지 않는다.\"", "summary": "상황에 따라 경로를 바꾸는 유연한 여행 원칙. 경직된 계획 자체를 경계.", "theme": "유연한 계획 vs 경직된 계획", "form": "-", "mech": "우연성·불예측성", "strength": "중", "lineage": "원형(출발점)", "note": ""},
+  {"no": "3", "text": "몽테뉴 『에세』", "author": "미셸 드 몽테뉴", "pages": "186, 189", "quote": "\"낯선 방식은 모두 질색하며 혐오스럽게 여긴다.\" (비판 대상 프랑스 여행객에 대한 서술)", "summary": "낯선 관습을 열어두면서도 결국 자문화 중심성을 감추지 못하는 이중적 태도.", "theme": "문화적 개방성과 자기모순", "form": "조우", "mech": "관계적 리스크", "strength": "중", "lineage": "원형(출발점)", "note": ""},
+  {"no": "4", "text": "몽테뉴 『에세』", "author": "미셸 드 몽테뉴", "pages": "190-191", "quote": "\"지루한 동행보다는 혼자가 낫다.\"", "summary": "동행의 가치를 인정하면서도 동반자의 질에 까다로운 기준을 둠.", "theme": "동행 vs 고독", "form": "-", "mech": "관계적 리스크", "strength": "중", "lineage": "원형(출발점)", "note": ""},
+  {"no": "5", "text": "몽테뉴 『에세』", "author": "미셸 드 몽테뉴", "pages": "191", "quote": "\"당신은 어디든 자신을 따라다니며 불평할 것이다.\"", "summary": "아무리 멀리 가도 결국 자기 자신을 데리고 다닐 수밖에 없다는 스토아적 통찰.", "theme": "자신으로부터 도망칠 수 없다", "form": "체화된 경험", "mech": "실존적 위협·감정적 대가", "strength": "강", "lineage": "원형(출발점)", "note": "논증의 핵심 축"},
+  {"no": "6", "text": "몽테뉴 『에세』", "author": "미셸 드 몽테뉴", "pages": "185", "quote": "\"그렇다고 한들 어떻단 말인가?\" (여행 중 죽을 수도 있다는 만류에 대한 반문)", "summary": "나이 들어서도 떠나는 것의 의미, 여행을 통해 죽음을 마주하는 초연한 태도.", "theme": "노년의 여행과 죽음", "form": "체화된 경험", "mech": "시간의 비가역성 / 신체적 위험·불편", "strength": "강", "lineage": "원형(출발점)", "note": "타 텍스트 사례 보강 필요"},
+  {"no": "7", "text": "몽테뉴 『에세』", "author": "미셸 드 몽테뉴", "pages": "182-184, 각주 34-35", "quote": "원문 미확보 — 사진 촬영 시 추가 예정", "summary": "(미확인 — 원본 사진 누락)", "theme": "미정", "form": "미정", "mech": "미정", "strength": "-", "lineage": "원형(출발점)", "note": "미해결: 사진 재촬영 필요"},
+  {"no": "8", "text": "라셀라스", "author": "새뮤얼 존슨", "pages": "", "quote": "원문 미확보 — 사진 촬영 시 추가 예정", "summary": "여섯 텍스트 중 유일하게 스토아적 전제가 반박 없이 그대로 확인됨. 관찰을 통한 여행도 자기 자신의 한계를 벗어나지 못함.", "theme": "자신으로부터 도망칠 수 없다", "form": "관찰", "mech": "약함(관찰 중심)", "strength": "약", "lineage": "계몽주의적 회의(2단계)", "note": "일반 지식 기반 분석 — 사진 미제공"},
+  {"no": "9", "text": "라셀라스", "author": "새뮤얼 존슨", "pages": "", "quote": "원문 미확보 — 사진 촬영 시 추가 예정", "summary": "여동생·시인과 함께하는 집단적·목적지향적 탐구지만 결국 뚜렷한 결론에 이르지 못함.", "theme": "이동 자체가 목적 vs 목표지향적 여행", "form": "관찰", "mech": "약함(관찰 중심)", "strength": "약", "lineage": "계몽주의적 회의(2단계)", "note": "일반 지식 기반 분석 — 사진 미제공"},
+  {"no": "10", "text": "싯다르타", "author": "헤르만 헤세", "pages": "", "quote": "원문 미확보 — 사진 촬영 시 추가 예정", "summary": "강가에서 보내는 시간이 관념이 아니라 몸으로 겪는 지속으로 그려짐. 자아의 급진적 해체.", "theme": "자신으로부터 도망칠 수 없다(역전)", "form": "체화된 경험", "mech": "시간의 비가역성", "strength": "강", "lineage": "낭만주의·동양 종합(3단계)", "note": "일반 지식 기반 분석 — 사진 미제공"},
+  {"no": "11", "text": "싯다르타", "author": "헤르만 헤세", "pages": "", "quote": "원문 미확보 — 사진 촬영 시 추가 예정", "summary": "고빈다와의 결별로 시작해 카말라·바주데바와의 관계도 결국 고독한 자기 체득의 통과점이 됨.", "theme": "동행 vs 고독", "form": "체화된 경험", "mech": "실존적 위협·감정적 대가", "strength": "중", "lineage": "낭만주의·동양 종합(3단계)", "note": "일반 지식 기반 분석 — 사진 미제공"},
+  {"no": "12", "text": "르 부아야주 데흑토르", "author": "프랑수아 를로르", "pages": "", "quote": "원문 미확보 — 사진 촬영 시 추가 예정", "summary": "몽테뉴적 통찰이 '행복의 원칙 목록'이라는 소비하기 쉬운 형식으로 압축·재포장됨.", "theme": "이동 자체가 목적 vs 목표지향적 여행", "form": "관찰", "mech": "약함(관찰 중심)", "strength": "약", "lineage": "자기계발적 재포장(4단계, 잠정)", "note": "일반 지식 기반 분석 — 사진 미제공"},
+  {"no": "13", "text": "르 부아야주 데흑토르", "author": "프랑수아 를로르", "pages": "", "quote": "원문 미확보 — 사진 촬영 시 추가 예정", "summary": "우연한 만남이 행복 원칙을 하나씩 확인·수집하는 형태로 구조화됨.", "theme": "유연한 계획 vs 경직된 계획", "form": "관찰", "mech": "약함(관찰 중심)", "strength": "약", "lineage": "자기계발적 재포장(4단계, 잠정)", "note": "일반 지식 기반 분석 — 사진 미제공"},
+  {"no": "14", "text": "카뮈 여행산문", "author": "알베르 카뮈", "pages": "74", "quote": "\"벌거숭이인 나\" (낯선 도시에서 습관의 장막이 걷힌 상태에 대한 자기 묘사)", "summary": "몽테뉴의 '자기 노출' 비유를 이어받아 불안한 부조리와의 대면으로 급진화.", "theme": "자신으로부터 도망칠 수 없다(급진화)", "form": "-", "mech": "실존적 위협·감정적 대가", "strength": "강", "lineage": "위치 미정(원형~2단계 사이)", "note": "몽테뉴와의 상호텍스트성 확인됨"},
+  {"no": "15", "text": "카뮈 여행산문", "author": "알베르 카뮈", "pages": "92-93", "quote": "\"여행의 진정한 가치는 바로 두려움이다.\"", "summary": "여행은 방어막을 강제로 해제시켜 자아를 표면으로 노출시키는 행위라는 핵심 명제.", "theme": "자신으로부터 도망칠 수 없다(경험적 변주)", "form": "체화된 경험", "mech": "신체적 위험·불편", "strength": "강", "lineage": "위치 미정(원형~2단계 사이)", "note": "논증의 핵심 축"},
+  {"no": "16", "text": "카뮈 여행산문", "author": "알베르 카뮈", "pages": "74", "quote": "\"영혼의 굶주림 같은 공허\" (하루가 끝난 뒤 돌아온 호텔방에 대한 묘사)", "summary": "낯선 도시 프라하에서 느끼는 고립감이 관광적 즐거움이 아닌 실존적 불안으로 그려짐.", "theme": "동행 vs 고독", "form": "체화된 경험", "mech": "실존적 위협·감정적 대가", "strength": "강", "lineage": "위치 미정(원형~2단계 사이)", "note": ""},
+  {"no": "17", "text": "문방구 에세이", "author": "미상(동시대 에세이)", "pages": "97", "quote": "\"나의 안테나는 언제나 문구를 향해 있기에 의도하지 않아도 매번 문구 여행이 되고 만다.\"", "summary": "문구라는 취향은 뚜렷하지만 찾아가는 방식은 계획이 아닌 감각적 이끌림에 맡겨짐.", "theme": "이동 자체가 목적 vs 목표지향적 여행", "form": "조우", "mech": "우연성·불예측성", "strength": "중", "lineage": "동시대 사례", "note": "2026-09-01 신규 분석"},
+  {"no": "18", "text": "문방구 에세이", "author": "미상(동시대 에세이)", "pages": "97", "quote": "\"그때 나의 진짜 여행도 비로소 시작된다.\"", "summary": "반복적·우연한 마주침이 누적되어 도시에 대한 인식을 형성. AI가 대체하기 가장 어려운 양식.", "theme": "-", "form": "조우", "mech": "우연성·불예측성", "strength": "강", "lineage": "동시대 사례", "note": "'조우' 양식의 대표 실증 사례"},
+  {"no": "19", "text": "문방구 에세이", "author": "미상(동시대 에세이)", "pages": "98", "quote": "\"문방구들은 묘하게 그 도시들의 특징을 쏙 빼닮았다.\"", "summary": "가이드북식 정보가 아니라 문구를 매개로 도쿄·뉴욕·베트남의 성격을 감각적으로 포착.", "theme": "문화적 개방성과 자기모순", "form": "조우", "mech": "우연성·불예측성", "strength": "중", "lineage": "동시대 사례", "note": ""},
+  {"no": "20", "text": "문방구 에세이", "author": "미상(동시대 에세이)", "pages": "98", "quote": "\"문구는 기념품으로서의 역할도 아주 훌륭하게 수행해낸다.\"", "summary": "사진이 아니라 손에 쥐는 사물이 여행의 기억을 담는다는 점에서 신체화된 기억의 매체가 됨.", "theme": "-", "form": "체화된 경험", "mech": "신체적 위험·불편(물질적 변주)", "strength": "중", "lineage": "동시대 사례", "note": "기념품의 물질성"},
+  {"no": "21", "text": "홍진기 『사고외주』", "author": "홍진기", "pages": "83", "quote": "\"그 순간만큼은 AI보다 내 감각과 판단이 먼저 작동합니다.\"", "summary": "낯선 곳에 도착해 루틴이 깨지고 감각이 예민해지는 순간, AI보다 자신의 감각과 판단이 먼저 작동한다는 여행의 특권적 지위를 명시.", "theme": "-", "form": "체화된 경험", "mech": "우연성·불예측성", "strength": "강", "lineage": "이론적 뒷받침(별도 트랙)", "note": "여행을 AI 대체불가 경험의 대표 사례로 직접 지목"},
+  {"no": "22", "text": "홍진기 『사고외주』", "author": "홍진기", "pages": "83", "quote": "\"그것은 어디까지나 AI가 학습한 과거의 평균값일 뿐입니다.\"", "summary": "경험이 제한된 사람에게 AI가 제시하는 결과는 그럴듯해 보이지만, 실은 AI가 학습한 과거 데이터의 평균값에 불과하다는 비판.", "theme": "-", "form": "-", "mech": "-", "strength": "중", "lineage": "이론적 뒷받침(별도 트랙)", "note": "DIL의 AI 한계 논증에 인지과학적 근거 제공"},
+  {"no": "23", "text": "홍진기 『사고외주』", "author": "홍진기", "pages": "84", "quote": "\"인간만이 실패를 통해 깊어집니다.\"", "summary": "AI는 실패를 통해 정확도는 높일 수 있으나 그 의미는 해석하지 못한다는 대비. 실패에 따르는 당혹감·좌절감·후회가 다음 선택을 바꾸는 인간 고유의 메커니즘.", "theme": "-", "form": "체화된 경험", "mech": "실존적 위협·감정적 대가", "strength": "강", "lineage": "이론적 뒷받침(별도 트랙)", "note": "실패 해석 능력을 인간 고유 영역으로 규정"},
+  {"no": "24", "text": "비야르 『기나긴 청춘』", "author": "장 비야르", "pages": "62", "quote": "\"마지막으로 16세가 된 청년들이… 10일간 국내 여행을 제도화해야 한다.\"", "summary": "16세 청년 전원이 프랑스의 상징적 장소를 10일간 직접 다니게 하자는 국내 여행 제도화 제안.", "theme": "이동 자체가 목적 vs 목표지향적 여행", "form": "체화된 경험 / 조우", "mech": "-", "strength": "중", "lineage": "정책·사회학(별도 트랙)", "note": "기능: 모국 이해·시민 형성 / 제도화"},
+  {"no": "25", "text": "비야르 『기나긴 청춘』", "author": "장 비야르", "pages": "63", "quote": "\"프랑스인이 된다는 것은 프랑스가 어떤 나라인지 안다는 뜻이니까.\"", "summary": "국가 정체성은 추상적 교육이 아니라 직접 가 보며 형성된다는 주장.", "theme": "-", "form": "체화된 경험", "mech": "-", "strength": "중", "lineage": "정책·사회학(별도 트랙)", "note": "기능: 모국 이해·시민 형성 (6테마 외 축)"},
+  {"no": "26", "text": "비야르 『기나긴 청춘』", "author": "장 비야르", "pages": "63", "quote": "\"…성인식으로서 모든 청년의 법적 의무로 제도화해도 좋겠다.\"", "summary": "고국 명소 답사를 성인식 겸 법적 의무로 두고, 이후 에라스무스처럼 해외 여행까지 교육과정에 편입하는 안.", "theme": "-", "form": "체화된 경험", "mech": "-", "strength": "중", "lineage": "정책·사회학(별도 트랙)", "note": "기능: 통과의례 / 제도화"},
+  {"no": "27", "text": "비야르 『기나긴 청춘』", "author": "장 비야르", "pages": "68", "quote": "\"프랑스 문화부가 청년들의 국내 여행을 제도화하기 바란다.\"", "summary": "문화부가 주체가 되어 여름에 비는 대학 기숙사를 숙박으로 제공해, 큰 비용 없이 청년 국내 여행을 지원.", "theme": "-", "form": "-", "mech": "-", "strength": "중", "lineage": "정책·사회학(별도 트랙)", "note": "기능: 여가 접근 기회 / 제도화"},
+  {"no": "28", "text": "비야르 『기나긴 청춘』", "author": "장 비야르", "pages": "68", "quote": "\"모국이란 추상적 개념이 아니라… 구체적 공간이자 영토다.\"", "summary": "500유로 상당의 문화 패스로 비용 장벽을 낮추고, 국토 여행을 도서관·박물관 방문만큼 중요하게 만들자는 구상.", "theme": "-", "form": "체화된 경험", "mech": "-", "strength": "중", "lineage": "정책·사회학(별도 트랙)", "note": "기능: 여가 접근 기회 / 제도화 (여가는 간접 표현)"},
+  {"no": "29", "text": "비야르 『기나긴 청춘』", "author": "장 비야르", "pages": "69", "quote": "\"…'졸업 후 취직'은 이제 여러 어른 되기의 모델 중 하나일 뿐이다.\"", "summary": "어른 되기에 정해진 순서가 없는 사회에서, 학업 중단자든 대학생이든 친구들과 어느 단계에서나 떠날 수 있음.", "theme": "동행 vs 고독", "form": "체화된 경험", "mech": "-", "strength": "약", "lineage": "정책·사회학(별도 트랙)", "note": "기능: 통과의례 / 여가 접근"},
+  {"no": "30", "text": "비야르 『기나긴 청춘』", "author": "장 비야르", "pages": "64-67", "quote": "원문 미확보 — 사진 촬영 시 추가 예정", "summary": "(미확인 — 원본 사진 누락)", "theme": "미정", "form": "미정", "mech": "미정", "strength": "-", "lineage": "정책·사회학(별도 트랙)", "note": "미해결: 64-67쪽, 69쪽 각주 6번 확인 필요"},
+  {"no": "31", "text": "메스트르 『내 방 여행하는 법』", "author": "크사비에 드 메스트르", "pages": "11", "quote": "\"나는 42일간의 내 방 여행을 떠났다가 돌아온 참이다.\"", "summary": "방 안에 머문 42일을 여행으로 규정하고 책으로 엮을 가치가 있다고 선언하는 서두.", "theme": "이동 자체가 목적 vs 목표지향적 여행(반례: 이동 없음)", "form": "관찰", "mech": "약함(관찰 중심)", "strength": "중", "lineage": "위치 미정(2~3단계 사이, 반례 트랙)", "note": "1장 발견의 서 · 반례 트랙의 기준 선언 (각주: 저자의 직업은 군인)"},
+  {"no": "32", "text": "메스트르 『내 방 여행하는 법』", "author": "크사비에 드 메스트르", "pages": "13", "quote": "\"양식이 있는 사람이라면 얼마든지 내가 했던 것과 같은 여행을 할 수 있다.\"", "summary": "성격·재산·나이·기후와 상관없이 누구나 방 안에서 같은 여행을 할 수 있다는 보편 접근성 주장. 같은 쪽에서 남의 시기를 살 일도, 대단한 장비도 필요 없다고 덧붙인다.", "theme": "-", "form": "관찰", "mech": "약함(관찰 중심)", "strength": "중", "lineage": "위치 미정(2~3단계 사이, 반례 트랙)", "note": "1장 · 기능: 접근 기회(비용·장비 장벽 없음) — 비야르 축과 교차. 사진이 흐려 13쪽 첫 문장은 판독 불확실, 재촬영 권장"},
+  {"no": "33", "text": "메스트르 『내 방 여행하는 법』", "author": "크사비에 드 메스트르", "pages": "16", "quote": "\"로마와 파리를 보고자 그 먼 길을 수고스럽게 떠났던 여행자들을 비웃으며\"", "summary": "먼 길을 수고롭게 떠나는 전통적 여행자를 비웃고, 번거로움도 비용도 없는 방 안 여행을 권한다. 수고와 불편을 여행의 가치가 아니라 낭비로 보는 시선.", "theme": "이동 자체가 목적 vs 목표지향적 여행(반례: 이동 없음)", "form": "관찰", "mech": "약함(관찰 중심) / 부재: 신체적 위험·불편", "strength": "강", "lineage": "위치 미정(2~3단계 사이, 반례 트랙)", "note": "1장 · 논증용 대조 인용: 마찰 없는 여행의 선언 (카뮈의 두려움, 몽테뉴의 불편 수용과 대비)"},
+  {"no": "34", "text": "메스트르 『내 방 여행하는 법』", "author": "크사비에 드 메스트르", "pages": "16", "quote": "\"우리 자신을 기꺼이 상상에 내맡기고 그가 이끄는 대로 가면 될 것을.\"", "summary": "상상에 이끌려 가면 된다는 방 안 여행의 방법론. 몸의 감각이나 낯선 마주침이 아니라 상상이 이동을 대신한다.", "theme": "-", "form": "관찰", "mech": "약함(관찰 중심)", "strength": "중", "lineage": "위치 미정(2~3단계 사이, 반례 트랙)", "note": "1장 · 상상 매개 여행 — 체화 경험·조우 부재"},
+  {"no": "35", "text": "메스트르 『내 방 여행하는 법』", "author": "크사비에 드 메스트르", "pages": "17", "quote": "\"바깥출입은 마음대로 할 수 없었다.\"", "summary": "방 안에서 기쁘고 즐거웠다고 하면서도 실은 바깥출입이 자유롭지 않았다고 털어놓음. 선택한 여행이 아니라 강제된 체류를 여행으로 재서술한 것. 같은 쪽에서 여행기의 객담을 덜어내면 한 장이면 족하다며 여행기 장르도 풍자한다.", "theme": "-", "form": "-", "mech": "-", "strength": "강", "lineage": "위치 미정(2~3단계 사이, 반례 트랙)", "note": "3장 법과 관습 · 반례의 한계: 자발적 선택이 아닌 강제 체류 (이어지는 문장은 사진 밖)"},
+  {"no": "36", "text": "메스트르 『내 방 여행하는 법』", "author": "크사비에 드 메스트르", "pages": "37", "quote": "\"물질에서 벗어나 영혼이 언제든 홀로 여행할 수 있다면 그것은 바람직하고도 유용한 일이다.\"", "summary": "몸에서 벗어나 영혼만 홀로 여행하는 일이 바람직하고 유용하다고 인정하면서도, 곧바로 불리한 점도 있다며 앞서 언급한 손가락 화상을 예로 든다. 몸을 떠난 여행의 대가를 저자 스스로 인정하는 대목.", "theme": "자신으로부터 도망칠 수 없다(변주: 영혼/몸 분리)", "form": "체화된 경험", "mech": "신체적 위험·불편(우발적·희극적)", "strength": "강", "lineage": "위치 미정(2~3단계 사이, 반례 트랙)", "note": "8장 동물성 · 논증용: 영혼만의 여행의 한계를 저자가 직접 인정. 풍자적 어조는 감안"},
+  {"no": "37", "text": "메스트르 『내 방 여행하는 법』", "author": "크사비에 드 메스트르", "pages": "37", "quote": "\"영혼으로서는 물끄러미 그 모습을 바라볼밖에 달리 끼어들 여지가 없다.\"", "summary": "아침 준비를 맡긴 몸(동물성)의 동작을 영혼이 끼어들 여지 없이 지켜보기만 하는 장면. 관찰자가 된 영혼과 행위하는 몸의 분리를 보여준다.", "theme": "자신으로부터 도망칠 수 없다(변주: 영혼/몸 분리)", "form": "관찰", "mech": "약함(관찰 중심)", "strength": "중", "lineage": "위치 미정(2~3단계 사이, 반례 트랙)", "note": "8장 동물성 · 각주(37쪽): 장치는 조리 도구를 가리킴"},
+  {"no": "38", "text": "메스트르 『내 방 여행하는 법』", "author": "크사비에 드 메스트르", "pages": "39", "quote": "\"나의 동물성은 손을 뻗어 뜨거운 부집게를 그냥 잡아 버렸고 결국 나는 손가락을 데었다.\"", "summary": "영혼이 홀로 여행을 떠난 사이 몸(동물성)이 뜨거운 부집게를 잡아 손가락을 데는 일화. 방 안의 여행에서도 영혼이 자리를 비우면 몸이 실제 대가를 치른다.", "theme": "자신으로부터 도망칠 수 없다(변주: 영혼/몸 분리)", "form": "체화된 경험", "mech": "신체적 위험·불편(우발적·희극적)", "strength": "중", "lineage": "위치 미정(2~3단계 사이, 반례 트랙)", "note": "8장 동물성 · 반례의 균열: 몸의 대가는 남음. 37쪽에서 앞서 언급된 손가락 화상의 본 이야기. 풍자적 일화라 논거로는 신중히"},
+  {"no": "39", "text": "메스트르 『내 방 여행하는 법』", "author": "크사비에 드 메스트르", "pages": "39", "quote": "\"이는 인간이 수행하기엔 경악하리만치 어려운 형이상학적 과제다.\"", "summary": "영혼이 몸의 행동에 끼어들지 않고 지켜보기만 하는 것은 거의 불가능하다는 고백. 37쪽 문장에서 이어지며, 딴생각에 빠지면 하는 일에 주의를 못 기울이기 때문이라는 설명.", "theme": "자신으로부터 도망칠 수 없다(변주: 영혼/몸 분리의 한계)", "form": "관찰", "mech": "-", "strength": "중", "lineage": "위치 미정(2~3단계 사이, 반례 트랙)", "note": "8장 동물성 · 37쪽 마지막 문장이 39쪽 첫 줄로 바로 이어짐(38쪽에는 본문 없음, 삽화쪽 추정)"},
+  {"no": "40", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "40", "quote": "\"기본적인 심리적 매듭 몇 개로 그 성과를 물거품으로 만들 수 있다.\"", "summary": "호텔을 짓고 만을 준설하는 거대한 성취도 몇 개의 심리적 매듭 앞에서는 무력해진다는 관찰. 행복의 핵심은 물질·미학이 아니라 심리라는 고대 철학자들의 주장을 불러온다. 어디를 가든 자신을 데려간다는 몽테뉴의 명제를 현장 사례로 증명하는 대목.", "theme": "자신으로부터 도망칠 수 없다(현대적 변주)", "form": "체화된 경험", "mech": "실존적 위협·감정적 대가", "strength": "강", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "기대에 대하여 §7 말미 · 몽테뉴 5번(191쪽)의 현대판 · 논증 핵심 축 후보"},
+  {"no": "41", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "40", "quote": "\"호사스러운 바비큐 파티도 하찮고 의미 없는 일이 되어버린 지 오래였다.\"", "summary": "해변 공원에서 동행자(M)와 다툰 뒤에는 호사스러운 바비큐 파티조차 의미를 잃었다는 일화. 환경의 질보다 동행과의 관계 상태가 경험의 가치를 좌우함을 보여준다.", "theme": "동행 vs 고독", "form": "체화된 경험", "mech": "관계적 리스크", "strength": "중", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "기대에 대하여 §7 · 40쪽(화해 장면 포함) · 몽테뉴 4번(190-191)과 대비: 몽테뉴는 동행을 경계, 보통은 동행의 불화가 여행을 무너뜨리는 현장을 기록"},
+  {"no": "42", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "40", "quote": "\"데제생트는 다시는 해외여행을 시도하지 않았다.\"", "summary": "네덜란드 여행 뒤 영국행을 포기한 데제생트는 집 벽에 여행사 진열장처럼 채색 인쇄물을 걸고 항해 일정표를 액자에 넣어 침실에 걸어 두는 등, 여행의 기대를 불러일으키는 사물로 주변을 꾸민다. 이동 없이 기대만 남기는 극단적 사례.", "theme": "이동 자체가 목적 vs 목표지향적 여행(반례: 이동 없음)", "form": "관찰", "mech": "약함(관찰 중심)", "strength": "중", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "기대에 대하여 §8 · 40-41쪽 · 위스망스 작중 인물(보통 경유 소개) · 메스트르(No.31-39)와 짝을 이루는 반례 트랙 후보"},
+  {"no": "43", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "41", "quote": "\"상상력은 실제 경험이라는 천박한 현실보다 훨씬 더 나은 대체물을 제공할 수 있다\"", "summary": "위스망스를 빌려 데제생트가 내린 결론: 상상이 실제 경험보다 낫다는 주장. 현장에서는 어디서나 볼 수 있는 것들 때문에 정작 보러 간 대상이 희석된다는 논리가 붙는다. 상상(=AI가 잘하는 매개 경험)이 이동을 대체할 수 있다는 주장의 고전적 형태.", "theme": "이동 자체가 목적 vs 목표지향적 여행(반례: 이동 없음)", "form": "관찰", "mech": "약함(관찰 중심)", "strength": "강", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "기대에 대하여 §8 · 41쪽 · 2차 인용(원전 확인 필요) · 논증용 대조 인용: 프로젝트 논지에 대한 최강 반론 후보 · 메스트르 33·34번과 같은 계열"},
+  {"no": "44", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "41", "quote": "\"당혹스러운 신체적, 심리적 요구들 때문에 미학적 요소들의 감상은 방해를 받는다.\"", "summary": "근심스러운 미래가 우리를 현재에서 끌어내고, 당혹스러운 몸과 마음의 요구가 미적 감상을 가로막는다는 서술. 몸을 통한 경험이 값어치이면서 동시에 방해이기도 하다는 양면성을 드러낸다.", "theme": "자신으로부터 도망칠 수 없다(변주: 몸·마음의 요구가 감상을 방해)", "form": "체화된 경험", "mech": "신체적 위험·불편(부정적 변주: 감상 방해)", "strength": "강", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "기대에 대하여 §8 · 41쪽 · 논지와 긴장: 신체적 불편을 대체불가 가치로 보는 아카이브 논리와 달리 여기서는 감상의 방해 요인 · 카뮈 15번(두려움)과 정반대 평가 → 반론 대응 필요"},
+  {"no": "45", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "41", "quote": "\"상상력의 자극을 받는 것보다 더 나은 여행은 없을지도 모른다\"", "summary": "보통은 데제생트의 경고에도 여행을 떠났지만, 집에서 항공 시간표를 넘기며 상상을 자극받는 편이 더 나은 여행일지 모른다고 느낀 적이 몇 번 있었다고 고백한다. 기대의 가치를 인정하는 저자의 양가성.", "theme": "이동 자체가 목적 vs 목표지향적 여행(반례: 이동 없음)", "form": "관찰", "mech": "약함(관찰 중심)", "strength": "중", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "기대에 대하여 §8 · 41쪽 말미 · 저자 본인이 반론을 완전히 부정하지 못함 · 204쪽(사막 이름이 실제 이동을 촉발)과 대비"},
+  {"no": "46", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "78", "quote": "\"여행은 생각의 산파이다.\"", "summary": "움직이는 비행기·배·기차만큼 내적 대화를 쉽게 이끌어내는 장소는 드물다는 주장. 눈앞의 풍경과 머릿속 생각 사이에 기묘한 상관관계가 있어, 이동 자체가 사유의 조건이 된다. 모든 운송수단 중 기차가 사유에 가장 도움이 된다는 서술이 이어진다.", "theme": "이동 자체가 목적 vs 목표지향적 여행(이동이 사유를 낳음)", "form": "체화된 경험", "mech": "우연성·불예측성(흘러가는 풍경)", "strength": "강", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "여행 장소에 대하여(추정) · 78쪽 · 6테마 외 축 후보: 이동-사유 결합 · 홍진기 『사고외주』(No.21-23)와 교차: AI에 사고를 맡기는 것 vs 이동이 사고를 여는 것"},
+  {"no": "47", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "78", "quote": "\"큰 생각은 큰 광경을 요구하고, 새로운 생각은 새로운 장소를 요구한다.\"", "summary": "큰 생각에는 큰 광경이, 새로운 생각에는 새로운 장소가 필요하다는 명제. 평소 멈칫거리던 내적 사유도 흘러가는 풍경의 도움을 얻어 술술 진행된다고 본다.", "theme": "이동 자체가 목적 vs 목표지향적 여행(이동이 사유를 낳음)", "form": "체화된 경험", "mech": "우연성·불예측성(장소의 물리적 현전)", "strength": "강", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "여행 장소에 대하여(추정) · 78쪽 · 장소 의존적 사유 · 몽테뉴 1번(179, 185)과 연결"},
+  {"no": "48", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "78", "quote": "\"정신의 일부가 다른 일을 하고 있을 때는 생각도 쉬워진다.\"", "summary": "음악을 듣거나 늘어선 나무를 눈으로 좇는 동안, 신경증적이고 검열관 같은 실용적 부분이 한눈을 팔아 어려운 생각이 의식에 떠오른다는 메커니즘. 해야 할 일이 생각뿐이면 정신이 굳는다고 본다.", "theme": "이동 자체가 목적 vs 목표지향적 여행(이동이 사유를 낳음)", "form": "체화된 경험", "mech": "우연성·불예측성", "strength": "중", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "여행 장소에 대하여(추정) · 78쪽 · 사고외주(No.21-23)와 다른 각도에서 맞물림: 몸이 어딘가를 지나는 동안 사유가 열림"},
+  {"no": "49", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "84", "quote": "\"외부인은 내부인보다 도덕적으로 우월한 위치를 차지하게 되었다.\"", "summary": "방랑에 부여하는 가치는 약 200년 전 감수성의 변화와 관련되며, 그 결과 외부인이 도덕적 우위를 차지하게 되었다는 레이먼드 윌리엄스의 주장. 방랑자의 고립·침묵·외로움이 사회의 엄격함과 이기적 편안함에 맞서 자연과 공동체를 잇는 위치를 준다고 본다.", "theme": "이동 자체가 목적 vs 목표지향적 여행(목적지와 무관한 방랑의 가치) / 동행 vs 고독", "form": "관찰", "mech": "-", "strength": "중", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "여행 장소에 대하여(추정) §8 · 84쪽 · 윌리엄스 『시골과 도시』 2차 인용 · 낭만주의(3단계) 감수성 변화의 해석틀: 싯다르타(No.10-11)와 연결"},
+  {"no": "50", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "84", "quote": "\"이기적인 편안함이나 습관이나 제약과는 다른 어떤 것을 느낄 수 있을 것\"", "summary": "휴게소·모텔·공항은 건축적으로 불안하고 불편하며 색채와 조명도 거슬리지만, 우리는 그곳에서 일상의 이기적 편안함·습관·제약과는 다른 무엇을 느끼리라 은연중에 기대하며 끌린다는 설명.", "theme": "자신으로부터 도망칠 수 없다(역전: 습관·제약 이탈)", "form": "조우", "mech": "신체적 위험·불편 / 우연성·불예측성", "strength": "강", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "여행 장소에 대하여(추정) §8 · 84쪽 · 카뮈 14번(습관의 장막이 걷힌 \"벌거숭이인 나\")과 상호텍스트"},
+  {"no": "51", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "102", "quote": "\"고향에서 갈망했으나 얻지 못한 것일 수도 있는 것이다.\"", "summary": "외국에서 이국적으로 느끼는 것은 낯섦 자체보다 고향에서 얻지 못한 것의 반영일 수 있다. 저자는 암스테르담에 열광한 이유를 영국에 대한 불만(현대성·미학적 단순성의 결여, 도시적 삶에 대한 저항)에서 찾는다.", "theme": "문화적 개방성과 자기모순 / 자신으로부터 도망칠 수 없다(변주: 결핍의 투영)", "form": "조우", "mech": "-", "strength": "중", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "이국적인 것에 대하여(추정) §3 말미 · 102쪽 · 몽테뉴 3번(186, 189)과 연결: 개방성의 동기가 곧 자기 결핍"},
+  {"no": "52", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "102", "quote": "\"고향에서 그가 분노했던 것의 이면이다.\"", "summary": "플로베르가 이집트를 새롭고 귀중하다고 느낀 것은 프랑스 부르주아지의 신념과 행동에 대한 분노의 이면이기 때문이라는 해설. 이국 동경이 고향 혐오와 짝을 이룬다.", "theme": "문화적 개방성과 자기모순", "form": "조우", "mech": "-", "strength": "중", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "이국적인 것에 대하여(추정) §4 · 102쪽 · 이어지는 103쪽 이후 미확보"},
+  {"no": "53", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "146", "quote": "\"나의 발견은 나에게 생기를 주어야 했다.\"", "summary": "보통은 자신이 알게 되는 사실이 개인적 유익으로 정당화되고 \"삶을 고양한다\"는 점이 입증되어야 한다고 말하며, 이를 니체가 사실 수집과 내적·심리적 풍요를 위한 사실 활용을 구분한 데서 가져온다. 괴테의 말을 인용해 가르치기만 하는 지식을 배격하고, 여행 중 \"삶을 위한\" 지식이 무엇인지 묻는다.", "theme": "-", "form": "관찰(비판 대상)", "mech": "-", "strength": "강", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "호기심에 대하여 · 146쪽 · 니체 2차 인용 · 6테마 외 축 후보: 지식의 목적 — 사실 수집(AI 대체 가능) vs 삶을 위한 지식(대체 불가)을 가르는 고전적 출처"},
+  {"no": "54", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "147", "quote": "\"인간이라는 개념을 확장하고 그 개념을 좀더 아름답게 만들었던 것\"", "summary": "니체의 첫 번째 여행 유형: 자기 문화의 상태에 우울한 사람이 이탈리아에서 르네상스가 운·인내심·후원자를 가진 소수 개인의 작업이었음을 발견하고, 과거의 위대함을 숙고하며 힘과 영감을 얻는다.", "theme": "-", "form": "체화된 경험", "mech": "-", "strength": "중", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "호기심에 대하여 · 147쪽 · 6테마 외 축 · 148쪽 이후 이어지는 내용 확인 필요"},
+  {"no": "55", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "147", "quote": "\"과거로부터의 상속자이자 꽃이자 열매\"", "summary": "니체의 두 번째 여행 유형: 사회와 정체성이 과거에 의해 형성되었음을 깨닫고 연속성과 소속감을 확인하는 여행. 오래된 건물 앞에서 자신이 우연적·자의적 존재가 아님을 알고 존재의 정당화를 느낀다.", "theme": "-", "form": "체화된 경험", "mech": "-", "strength": "중", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "호기심에 대하여 · 147쪽 · 기능: 소속감·정체성 확인 — 비야르 25번·28번(모국 이해·시민 형성)과 교차"},
+  {"no": "56", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "194", "quote": "\"일상의 사물에 새로운 매력을 부여하는 것\"", "summary": "콜리지는 워즈워스의 천재성을 일상의 사물에 새 매력을 부여하고, 습관적 무관심에서 벗어나 눈앞 세계의 아름다움과 경이를 발견하게 하는 것으로 규정한다. 익숙함과 이기적 염려 때문에 눈·귀·마음이 열려 있어도 보고 듣고 느끼지 못한다는 진단.", "theme": "-", "form": "체화된 경험", "mech": "-", "strength": "중", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "시골과 도시에 대하여 · 194쪽 · 6테마 외 축 후보: 습관·무관심 극복 · 카뮈 14번·문방구 17번과 교차 · 쪽 상단 인용(새들의 도착도 알리는 일간지)은 인용 주체가 193쪽에 있어 미확인"},
+  {"no": "57", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "195", "quote": "\"경쟁, 질투, 불안에 저항하는 쪽으로 형성되어갔다\"", "summary": "절벽의 웅장함과 규모는 우리 안의 고결한 것을 일으키고 경외 속에서 우리를 넘어서는 것을 존중하게 한다. 워즈워스는 자연 속에서 살며 성격이 경쟁·질투·불안에 저항하는 쪽으로 형성되었다고 주장했고, 절벽 위에 선 두 사람은 자연과의 관계뿐 아니라 서로의 관계도 바꿀 수 있다고 본다.", "theme": "자신으로부터 도망칠 수 없다(역전: 장소가 성격을 바꾼다) / 동행 vs 고독", "form": "체화된 경험", "mech": "실존적 위협·감정적 대가(경외·겸손)", "strength": "강", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "시골과 도시에 대하여 · 194-195쪽 · 몽테뉴 5번의 반명제 · 카뮈 15번(두려움)과 대조: 같은 거대함 앞에서 카뮈는 위협, 워즈워스는 겸손 · 쪽 하단 시구는 인용 생략(요약만)"},
+  {"no": "58", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "204", "quote": "\"누가 나를 여기에 가져다놓았는가?\"", "summary": "파스칼은 자신이 차지한 작은 공간을 둘러싼 무한한 공간을 생각하며, 저기가 아닌 여기, 다른 때가 아닌 지금 존재할 이유가 없다는 사실에 놀란다. 사막행 비행기 안에서 읽힌 이 구절은 장소와 시간의 우연성을 자각하게 한다.", "theme": "노년의 여행과 죽음(확장: 실존적 유한성·우연성)", "form": "체화된 경험", "mech": "실존적 위협·감정적 대가 / 시간의 비가역성", "strength": "강", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "숭고함에 대하여(추정) §1 · 204쪽 · 파스칼 『팡세』 단장 68 2차 인용 · 같은 쪽에서 기내 옆자리 여성과 대화한 기록이 있으나 이번엔 미분석"},
+  {"no": "59", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "204", "quote": "\"큰 사막 이름(모하비, 칼라하리, 타클라마칸, 고비)만 들어도 마음이 움직인\"", "summary": "미국 서부 사진과 큰 사막의 이름만으로 동경이 생겨 시나이 사막행 전세 항공편을 예약했다는 서술. 매개된 이미지·이름이 실제 이동의 동기가 되는 사례로, 상상이 이동을 대체한다는 데제생트와 정반대 방향이다.", "theme": "이동 자체가 목적 vs 목표지향적 여행(매개된 동경이 이동을 촉발)", "form": "관찰", "mech": "약함(관찰 중심)", "strength": "중", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "숭고함에 대하여(추정) · 204쪽 · 데제생트(No.42-45)와 대비: 상상이 이동을 대체하는 경우 vs 촉발하는 경우"},
+  {"no": "60", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "228", "quote": "\"숭고한 장소들은 부드럽게 우리를 다독여 한계를 인정하게 한다.\"", "summary": "숭고한 장소는 우리를 다그치지 않고 부드럽게 한계를 인정하게 한다는 결론. 한계에 부딪히면 보통 불안과 분노를 느끼지만, 자연의 광대한 공간 앞에서는 인간 삶의 압도적 사건들도 다르게 받아들일 수 있다고 본다.", "theme": "노년의 여행과 죽음(확장: 한계·유한성 수용)", "form": "체화된 경험", "mech": "실존적 위협·감정적 대가", "strength": "강", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "숭고함에 대하여(추정) 결론부 · 228쪽 · 첫 문장이 227쪽에서 이어져 앞부분 미확보 · 카뮈 15번(두려움)의 반대편: 두려움이 위협에서 한계 인정의 위안으로 전환 · 같은 쪽에 \"바다를 놓고 산을 깎은 힘들의 장난감\" 표현"},
+  {"no": "61", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "228", "quote": "\"좀더 담담하게 받아들이는 데 도움을 얻을 수도 있을 것이다.\"", "summary": "광대한 자연에서 시간을 보내면 삶을 힘겹게 만드는 사건들, 필연적으로 우리를 먼지로 돌려보낼 크고 헤아릴 수 없는 사건들을 좀더 담담하게 받아들이는 데 도움을 얻을 수 있다는 결론.", "theme": "노년의 여행과 죽음(죽음과의 대면)", "form": "체화된 경험", "mech": "실존적 위협·감정적 대가", "strength": "강", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "숭고함에 대하여(추정) · 228쪽 · 마인드맵 \"죽음과의 대면\" 노드의 두 번째 텍스트 · 몽테뉴 6번(185)은 죽음을 감수하는 태도, 보통은 자연 속 시간이 죽음 같은 큰 사건을 담담히 받는 심리적 준비 — 방향 차이"}
+];
+
+const THEME_KEYS = ['이동 자체가 목적','유연한 계획','문화적 개방성','동행 vs 고독','자신으로부터 도망칠 수 없다','노년의 여행과 죽음'];
+const FORM_KEYS = ['관찰','체화된 경험','조우'];
+
+const GRADE_CLASS = {'강':'strong','중':'mid','약':'weak','-':'none'};
+
+const fBook = document.getElementById('fBook');
+const fSearch = document.getElementById('fSearch');
+const fThemeRow = document.getElementById('fThemeRow');
+const fFormRow = document.getElementById('fFormRow');
+const fCount = document.getElementById('fCount');
+const fReset = document.getElementById('fReset');
+const idxList = document.getElementById('idxList');
+const idxEmpty = document.getElementById('idxEmpty');
+const mapView = document.getElementById('mapView');
+const indexView = document.getElementById('indexView');
+const tabButtons = document.querySelectorAll('.tab');
+
+const state = { book:'', theme:'', form:'', q:'' };
+
+function esc(s){
+  return String(s==null?'':s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// prepare derived fields
+INDEX_DATA.forEach(r=>{
+  r._themes = THEME_KEYS.filter(k=> String(r.theme||'').indexOf(k) > -1);
+  r._forms  = FORM_KEYS.filter(k=> String(r.form||'').indexOf(k) > -1);
+  r._hay = [r.text,r.author,r.pages,r.quote,r.summary,r.theme,r.form,r.mech,r.strength,r.lineage,r.note]
+            .join(' ').toLowerCase();
+});
+
+// book select
+(function buildBookFilter(){
+  const counts = {};
+  INDEX_DATA.forEach(r=>{ counts[r.text] = (counts[r.text]||0)+1; });
+  const books = Object.keys(counts);
+  fBook.innerHTML = `<option value="">전체 도서 (${INDEX_DATA.length})</option>` +
+    books.map(b=>`<option value="${esc(b)}">${esc(b)} · ${counts[b]}건</option>`).join('');
+})();
+
+// tag chips
+function buildChips(row, keys, field, group){
+  const counts = {};
+  keys.forEach(k=> counts[k]=0);
+  INDEX_DATA.forEach(r=>{ (field==='theme'? r._themes : r._forms).forEach(k=> counts[k]++); });
+  keys.forEach(k=>{
+    const b = document.createElement('button');
+    b.className = 'chip';
+    b.dataset.group = group;
+    b.dataset.value = k;
+    b.innerHTML = `${esc(k)}<span class="n">${counts[k]}</span>`;
+    b.addEventListener('click', ()=>{
+      const isOn = b.classList.contains('on');
+      row.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+      if(!isOn){ b.classList.add('on'); state[group] = k; } else { state[group] = ''; }
+      render();
+    });
+    row.appendChild(b);
+  });
+}
+buildChips(fThemeRow, THEME_KEYS, 'theme', 'theme');
+buildChips(fFormRow, FORM_KEYS, 'form', 'form');
+
+fBook.addEventListener('change', ()=>{ state.book = fBook.value; render(); });
+fSearch.addEventListener('input', ()=>{ state.q = fSearch.value.trim().toLowerCase(); render(); });
+fReset.addEventListener('click', ()=>{
+  state.book=''; state.theme=''; state.form=''; state.q='';
+  fBook.value=''; fSearch.value='';
+  document.querySelectorAll('.chip.on').forEach(c=>c.classList.remove('on'));
+  render();
+});
+
+function match(r){
+  if(state.book && r.text !== state.book) return false;
+  if(state.theme && r._themes.indexOf(state.theme) === -1) return false;
+  if(state.form && r._forms.indexOf(state.form) === -1) return false;
+  if(state.q && r._hay.indexOf(state.q) === -1) return false;
+  return true;
+}
+
+function entryHTML(r){
+  const grade = String(r.strength||'').trim();
+  const gcls = GRADE_CLASS[grade] || 'none';
+  const gkind = grade==='강' ? 's' : (grade==='중' ? 'm' : '');
+  const isMissing = String(r.quote||'').indexOf('원문 미확보') === 0;
+  const themes = r._themes.length
+    ? r._themes.map(k=>`<span class="tag-theme">${esc(k)}</span>`).join('')
+    : `<span class="tag-none">6테마 미지정</span>`;
+  const forms = r._forms.length
+    ? r._forms.map(k=>`<span class="tag-form">${esc(k)}</span>`).join('')
+    : (String(r.form||'').trim()==='-' ? '' : `<span class="tag-none">${esc(r.form)}</span>`);
+
+  return `
+  <article class="entry g-${gcls}">
+    <div class="e-top">
+      <span class="e-no">No.${esc(r.no)}</span>
+      <span class="e-book">${esc(r.text)}</span>
+      <span class="e-author">${esc(r.author)}</span>
+      ${grade && grade!=='-' ? `<span class="e-grade ${gkind}">논증 ${esc(grade)}</span>` : ''}
+      ${r.pages ? `<span class="e-pages">${esc(r.pages)}쪽</span>` : ''}
+    </div>
+    <blockquote class="e-quote${isMissing?' missing':''}">${esc(r.quote)}</blockquote>
+    <p class="e-sum">${esc(r.summary)}</p>
+    <div class="e-tags">${themes}${forms}</div>
+    <dl class="e-meta">
+      <div><dt>대체불가능성 메커니즘</dt><dd>${esc(r.mech)}</dd></div>
+      <div><dt>계보 위치</dt><dd>${esc(r.lineage)}</dd></div>
+      ${r.note ? `<div><dt>비고</dt><dd>${esc(r.note)}</dd></div>` : ''}
+    </dl>
+  </article>`;
+}
+
+function render(){
+  const rows = INDEX_DATA.filter(match);
+  fCount.textContent = `${rows.length}건 / ${INDEX_DATA.length}건`;
+  idxList.innerHTML = rows.map(entryHTML).join('');
+  idxEmpty.classList.toggle('on', rows.length === 0);
+}
+
+/* ---- view switching ---- */
+function showView(view){
+  const isIndex = view === 'index';
+  mapView.classList.toggle('off', isIndex);
+  indexView.classList.toggle('on', isIndex);
+  tabButtons.forEach(t=> t.classList.toggle('active', t.dataset.view === view));
+  if(isIndex && !idxList.dataset.rendered){
+    render();
+    idxList.dataset.rendered = '1';
+  }
+  closePanel();
+  window.scrollTo({top:0, behavior:'auto'});
+}
+
+tabButtons.forEach(t=>{
+  t.addEventListener('click', ()=>{
+    const v = t.dataset.view;
+    const url = v === 'index' ? '#index' : location.pathname + location.search;
+    try { history.replaceState(null, '', url); } catch(e) { /* ignore */ }
+    showView(v);
+  });
+});
+
+function applyHash(){
+  showView(location.hash.replace('#','') === 'index' ? 'index' : 'map');
+}
+window.addEventListener('hashchange', applyHash);
+
+render();
+applyHash();
 </script>
 </body>
 </html>
