@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Why Do We Travel? — 문학으로 읽는 여행 마인드맵</title>
-<meta name="description" content="몽테뉴·카뮈·보통 등 여행 문학 10권 61건의 색인을 키워드로 엮은 인터랙티브 마인드맵. AI 시대에 인간에게 여행이 왜 필요한가를 묻는 연구 아카이브.">
+<meta name="description" content="몽테뉴·카뮈·보통 등 여행 문학 10권과 화가 김물길의 아트로드까지 62건의 색인을 키워드로 엮은 인터랙티브 마인드맵. AI 시대에 인간에게 여행이 왜 필요한가를 묻는 연구 아카이브.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Why Do We Travel? — 문학으로 읽는 여행 마인드맵">
-<meta property="og:description" content="AI 시대, 몸으로 겪는 여행의 의미를 고전 문학과 인문·사회과학 텍스트로 탐색하는 인터랙티브 아카이브. 10권 61건 색인 수록.">
+<meta property="og:description" content="AI 시대, 몸으로 겪는 여행의 의미를 고전 문학과 인문·사회과학 텍스트, 화가 김물길의 아트로드로 탐색하는 인터랙티브 아카이브. 62건 색인 수록.">
 <meta property="og:locale" content="ko_KR">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -139,6 +139,15 @@
   .panel h2{ font-family:'Noto Serif KR', serif; font-weight:600; font-size:20px; margin:0 0 14px; line-height:1.4; }
   .panel p{ font-size:14.5px; line-height:1.75; color:var(--ink); font-weight:300; margin:0; }
   .panel .meta{ margin-top:22px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-soft); font-weight:300; }
+  .panel .panel-link{
+    display:none; margin-top:20px; padding:11px 14px;
+    border:1.2px solid var(--accent); border-radius:6px;
+    font-family:'Noto Serif KR', serif; font-size:13px; color:var(--accent); text-align:center;
+    text-decoration:none; letter-spacing:0.01em;
+    transition:background .18s ease, color .18s ease;
+  }
+  .panel .panel-link.on{ display:block; }
+  .panel .panel-link:hover{ background:var(--accent); color:var(--paper); }
 
   .overlay{ position:fixed; inset:0; background:rgba(43,38,32,0.15); opacity:0; pointer-events:none; transition:opacity .3s ease; z-index:19; }
   .overlay.open{ opacity:1; pointer-events:auto; }
@@ -220,6 +229,12 @@
   .e-grade{ font-size:10.5px; padding:1px 7px; border-radius:3px; border:1px solid var(--line); color:var(--ink-soft); white-space:nowrap; }
   .e-grade.s{ border-color:var(--sage); color:var(--sage); }
   .e-grade.m{ border-color:var(--amber); color:var(--amber); }
+  .e-source{
+    display:inline-block; margin:0 0 10px; padding-bottom:2px;
+    font-size:11.5px; color:var(--accent); text-decoration:none;
+    border-bottom:1px solid rgba(122,78,58,.4);
+  }
+  .e-source:hover{ color:var(--ink); border-bottom-color:var(--ink); }
   .idx-empty{ display:none; text-align:center; font-size:13px; color:var(--ink-faint); padding:50px 0; font-weight:300; }
   .idx-empty.on{ display:block; }
 
@@ -252,7 +267,7 @@
   <p class="hint">키워드 → 측면 → 작가/작품 순으로 클릭해 펼치고, 작품을 클릭해 세부 내용을 확인하세요</p>
   <nav class="tabs" id="tabs">
     <button class="tab active" data-view="map">마인드맵 보기</button>
-    <button class="tab" data-view="index">전체 색인표 <span class="cnt">61건</span></button>
+    <button class="tab" data-view="index">전체 색인표 <span class="cnt">62건</span></button>
   </nav>
 </header>
 
@@ -267,13 +282,13 @@
 <section id="indexView">
   <div class="idx-wrap">
     <div class="idx-head">
-      <p class="idx-kicker">Index · 61 entries</p>
-      <h2>전체 색인표 61건</h2>
-      <p class="idx-lead">10권의 텍스트에서 뽑은 61개 구절을 6개의 질문 축과 3가지 앎의 양식으로 분류한 표입니다. 도서·테마·양식으로 걸러 보거나, 원문과 요약을 검색할 수 있습니다. 알랭 드 보통 『여행의 기술』 22건은 마인드맵 노드에도 반영되어 있습니다.</p>
+      <p class="idx-kicker">Index · 62 entries</p>
+      <h2>전체 색인표 62건</h2>
+      <p class="idx-lead">10권의 텍스트와 화가 김물길의 회화 세계관에서 뽑은 62건을 6개의 질문 축과 3가지 앎의 양식으로 분류한 표입니다. 도서·테마·양식으로 걸러 보거나, 원문과 요약을 검색할 수 있습니다. 알랭 드 보통 『여행의 기술』 22건은 마인드맵 노드에도 반영되어 있습니다.</p>
       <div class="idx-stats">
-        <span><b>61</b> 항목</span>
-        <span><b>10</b> 텍스트</span>
-        <span><b>23</b> 논증 강도 ‘강’</span>
+        <span><b>62</b> 항목</span>
+        <span><b>11</b> 텍스트</span>
+        <span><b>24</b> 논증 강도 ‘강’</span>
         <span><b>22</b> 알랭 드 보통</span>
       </div>
     </div>
@@ -289,7 +304,7 @@
       <div class="f-row">
         <span class="f-label">검색</span>
         <input id="fSearch" type="search" placeholder="원문 · 요약 · 메커니즘 검색" autocomplete="off">
-        <span class="f-count" id="fCount">61건</span>
+        <span class="f-count" id="fCount">62건</span>
       </div>
     </div>
 
@@ -308,6 +323,7 @@
   <h2 id="panelTitle"></h2>
   <p id="panelBody"></p>
   <div class="meta" id="panelMeta"></div>
+  <a class="panel-link" id="panelLink" href="#" target="_blank" rel="noopener"></a>
 </aside>
 
 <script>
@@ -407,7 +423,8 @@ const KEYWORDS = [
       { id:'m-embodied', label:'체화된 경험', works:[
         { title:'싯다르타 · 헤르만 헤세', detail:'강물이라는 신체화된 시간의 경험이 지식 획득의 방식이 된다.' },
         { title:'카뮈 여행산문', detail:'더위, 빛, 피로 같은 몸의 감각이 사유의 매개가 된다.' },
-        { title:'사고외주 · 홍진기', detail:'낯선 곳에 도착해 루틴이 깨지고 감각이 예민해지는 순간, AI보다 자신의 감각과 판단이 먼저 작동한다. AI가 제시하는 결과는 그럴듯해 보이나 실은 학습한 과거의 평균값일 뿐이라는 대비를 통해, 체화된 경험이 왜 대체 불가능한지 인지과학적으로 뒷받침한다.' }
+        { title:'사고외주 · 홍진기', detail:'낯선 곳에 도착해 루틴이 깨지고 감각이 예민해지는 순간, AI보다 자신의 감각과 판단이 먼저 작동한다. AI가 제시하는 결과는 그럴듯해 보이나 실은 학습한 과거의 평균값일 뿐이라는 대비를 통해, 체화된 경험이 왜 대체 불가능한지 인지과학적으로 뒷받침한다.' },
+        { title:'김물길 〈Art Road〉 · 46개국', fullTitle:'김물길 〈Art Road / National Art Road〉', sourceUrl:'https://www.kimmulgil.com/world', sourceLabel:'공식 사이트에서 작품 보기 ↗', meta:'현대 회화 · 673일 · 5대륙 46개국 · 400여 장 · No.62 · 논증 강도 강 · 저서 〈아트로드〉(RHK, 2014) · 〈아트로드, 한국을 담다〉(RHK, 2016)', detail:'풍경을 사진처럼 복제하는 대신, 그날 보고 느낀 감정과 기억, 그리고 상상을 초록빛 화면 위에 겹쳐 그린 여행 회화. 매일 보고 느낀 것을 그리는 ‘아트로드’ 프로젝트로 673일 동안 5대륙 46개 나라를 지나며 400여 장을 그렸고, 귀국 뒤에는 ‘국내 아트로드(National Art Road)’로 이어져 한국의 계절과 사람을 담았다. 목적지보다 매일의 이동 자체를 목적으로 삼았고, 몸으로 직접 겪은 감정을 회화로 재구성해 남겼다 — 매끈한 풍경 이미지가 넘치는 지금도 대체되지 않는 체화된 경험의 현대적 사례다.' }
       ]},
       { id:'m-encounter', label:'조우', works:[
         { title:'문방구 에세이', detail:'반복적이고 우연한 마주침이 누적되어 도시에 대한 인식을 형성한다. AI가 대체하기 가장 어려운 앎의 양식이다.' },
@@ -472,7 +489,7 @@ rootEl.addEventListener('click', ()=>{
   openPanel({
     tag:'아카이브 전체', tagColor:'#2B2620',
     title:'여행 아카이브 · 핵심 논지',
-    body:'AI가 노동과 매개된 경험을 더 많이 대체할수록, 몸으로 직접 겪는 경험에 대한 갈증은 오히려 커진다 — 이는 고전 여행 문학이 줄곧 주장해온 바이기도 하다. 이 마인드맵은 여행에 관한 핵심 키워드를 중심으로, 그 키워드가 각 텍스트에서 어떻게 다르게 변주되는지를 보여준다. 10권 61건의 전체 목록은 위의 [전체 색인표] 탭에서 볼 수 있다.',
+    body:'AI가 노동과 매개된 경험을 더 많이 대체할수록, 몸으로 직접 겪는 경험에 대한 갈증은 오히려 커진다 — 이는 고전 여행 문학이 줄곧 주장해온 바이기도 하다. 이 마인드맵은 여행에 관한 핵심 키워드를 중심으로, 그 키워드가 각 텍스트에서 어떻게 다르게 변주되는지를 보여준다. 책 10권과 화가 김물길의 아트로드, 62건의 전체 목록은 위의 [전체 색인표] 탭에서 볼 수 있다.',
     meta:'키워드를 클릭해 펼쳐보세요'
   });
 });
@@ -541,9 +558,11 @@ KEYWORDS.forEach((kw, ki)=>{
         openPanel({
           tag: `${kw.label} · ${asp.label}`,
           tagColor: kw.color,
-          title: w.title,
+          title: w.fullTitle || w.title,
           body: w.detail,
-          meta: w.meta || '작품을 다시 클릭하면 선택이 유지됩니다'
+          meta: w.meta || '작품을 다시 클릭하면 선택이 유지됩니다',
+          sourceUrl: w.sourceUrl,
+          sourceLabel: w.sourceLabel
         });
       });
     });
@@ -587,11 +606,21 @@ const panelTag = document.getElementById('panelTag');
 const panelTitle = document.getElementById('panelTitle');
 const panelBody = document.getElementById('panelBody');
 const panelMeta = document.getElementById('panelMeta');
+const panelLink = document.getElementById('panelLink');
 const closeBtn = document.getElementById('closeBtn');
 
-function openPanel({tag, tagColor, title, body, meta}){
+function openPanel({tag, tagColor, title, body, meta, sourceUrl, sourceLabel}){
   panelTag.textContent = tag; panelTag.style.background = tagColor;
   panelTitle.textContent = title; panelBody.textContent = body; panelMeta.textContent = meta || '';
+  if(sourceUrl){
+    panelLink.href = sourceUrl;
+    panelLink.textContent = sourceLabel || '공식 사이트에서 작품 보기 ↗';
+    panelLink.classList.add('on');
+  } else {
+    panelLink.classList.remove('on');
+    panelLink.removeAttribute('href');
+    panelLink.textContent = '';
+  }
   panel.classList.add('open'); overlay.classList.add('open');
 }
 function closePanel(){
@@ -602,7 +631,7 @@ closeBtn.addEventListener('click', closePanel);
 overlay.addEventListener('click', closePanel);
 
 /* =========================================================
-   전체 색인표 (61건)
+   전체 색인표 (62건)
    ========================================================= */
 const INDEX_DATA = [
   {"no": "1", "text": "몽테뉴 『에세』", "author": "미셸 드 몽테뉴", "pages": "179, 185", "quote": "\"여행의 목적은 돌아오기 위해서도, 완수하기 위해서도 아니다.\"", "summary": "목적지·완주가 아니라 움직임이 주는 즐거움 자체가 여행의 전부라는 선언.", "theme": "이동 자체가 목적 vs 목표지향적 여행", "form": "-", "mech": "시간의 비가역성", "strength": "중", "lineage": "원형(출발점)", "note": "6테마 프레임워크의 기준 텍스트"},
@@ -665,9 +694,10 @@ const INDEX_DATA = [
   {"no": "58", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "204", "quote": "\"누가 나를 여기에 가져다놓았는가?\"", "summary": "파스칼은 자신이 차지한 작은 공간을 둘러싼 무한한 공간을 생각하며, 저기가 아닌 여기, 다른 때가 아닌 지금 존재할 이유가 없다는 사실에 놀란다. 사막행 비행기 안에서 읽힌 이 구절은 장소와 시간의 우연성을 자각하게 한다.", "theme": "노년의 여행과 죽음(확장: 실존적 유한성·우연성)", "form": "체화된 경험", "mech": "실존적 위협·감정적 대가 / 시간의 비가역성", "strength": "강", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "숭고함에 대하여(추정) §1 · 204쪽 · 파스칼 『팡세』 단장 68 2차 인용 · 같은 쪽에서 기내 옆자리 여성과 대화한 기록이 있으나 이번엔 미분석"},
   {"no": "59", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "204", "quote": "\"큰 사막 이름(모하비, 칼라하리, 타클라마칸, 고비)만 들어도 마음이 움직인\"", "summary": "미국 서부 사진과 큰 사막의 이름만으로 동경이 생겨 시나이 사막행 전세 항공편을 예약했다는 서술. 매개된 이미지·이름이 실제 이동의 동기가 되는 사례로, 상상이 이동을 대체한다는 데제생트와 정반대 방향이다.", "theme": "이동 자체가 목적 vs 목표지향적 여행(매개된 동경이 이동을 촉발)", "form": "관찰", "mech": "약함(관찰 중심)", "strength": "중", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "숭고함에 대하여(추정) · 204쪽 · 데제생트(No.42-45)와 대비: 상상이 이동을 대체하는 경우 vs 촉발하는 경우"},
   {"no": "60", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "228", "quote": "\"숭고한 장소들은 부드럽게 우리를 다독여 한계를 인정하게 한다.\"", "summary": "숭고한 장소는 우리를 다그치지 않고 부드럽게 한계를 인정하게 한다는 결론. 한계에 부딪히면 보통 불안과 분노를 느끼지만, 자연의 광대한 공간 앞에서는 인간 삶의 압도적 사건들도 다르게 받아들일 수 있다고 본다.", "theme": "노년의 여행과 죽음(확장: 한계·유한성 수용)", "form": "체화된 경험", "mech": "실존적 위협·감정적 대가", "strength": "강", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "숭고함에 대하여(추정) 결론부 · 228쪽 · 첫 문장이 227쪽에서 이어져 앞부분 미확보 · 카뮈 15번(두려움)의 반대편: 두려움이 위협에서 한계 인정의 위안으로 전환 · 같은 쪽에 \"바다를 놓고 산을 깎은 힘들의 장난감\" 표현"},
-  {"no": "61", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "228", "quote": "\"좀더 담담하게 받아들이는 데 도움을 얻을 수도 있을 것이다.\"", "summary": "광대한 자연에서 시간을 보내면 삶을 힘겹게 만드는 사건들, 필연적으로 우리를 먼지로 돌려보낼 크고 헤아릴 수 없는 사건들을 좀더 담담하게 받아들이는 데 도움을 얻을 수 있다는 결론.", "theme": "노년의 여행과 죽음(죽음과의 대면)", "form": "체화된 경험", "mech": "실존적 위협·감정적 대가", "strength": "강", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "숭고함에 대하여(추정) · 228쪽 · 마인드맵 \"죽음과의 대면\" 노드의 두 번째 텍스트 · 몽테뉴 6번(185)은 죽음을 감수하는 태도, 보통은 자연 속 시간이 죽음 같은 큰 사건을 담담히 받는 심리적 준비 — 방향 차이"}
+  {"no": "61", "text": "보통 『여행의 기술』", "author": "알랭 드 보통", "pages": "228", "quote": "\"좀더 담담하게 받아들이는 데 도움을 얻을 수도 있을 것이다.\"", "summary": "광대한 자연에서 시간을 보내면 삶을 힘겹게 만드는 사건들, 필연적으로 우리를 먼지로 돌려보낼 크고 헤아릴 수 없는 사건들을 좀더 담담하게 받아들이는 데 도움을 얻을 수 있다는 결론.", "theme": "노년의 여행과 죽음(죽음과의 대면)", "form": "체화된 경험", "mech": "실존적 위협·감정적 대가", "strength": "강", "lineage": "현대 종합·재해석 트랙(잠정)", "note": "숭고함에 대하여(추정) · 228쪽 · 마인드맵 \"죽음과의 대면\" 노드의 두 번째 텍스트 · 몽테뉴 6번(185)은 죽음을 감수하는 태도, 보통은 자연 속 시간이 죽음 같은 큰 사건을 담담히 받는 심리적 준비 — 방향 차이"},
+  {"no": "62", "text": "김물길 〈Art Road / National Art Road〉", "author": "김물길", "pages": "673일 · 46개국", "quote": "\"매일 보고 느낀 것을 그리는 ‘아트로드’ 프로젝트를 만들어, 673일 동안 5대륙 46개 나라를 여행하며 400여 장의 그림을 그렸다.\"", "summary": "풍경을 사진처럼 복제하는 대신 그날 느낀 감정·기억·상상을 겹쳐 초록빛 꿈같은 공간으로 그려낸 여행 회화. 귀국 후 ‘국내 아트로드’로 이어져 한국의 계절과 사람을 담았다. 매끈한 풍경 이미지가 넘치는 시대에 직접 겪은 경험을 회화로 재구성하는 일이 갖는 대체불가능성을 보여주는 현대 회화 사례.", "theme": "이동 자체가 목적", "form": "체화된 경험", "mech": "감정·기억의 신체적 재구성", "strength": "강", "lineage": "현대 회화 확장", "note": "공식 사이트(kimmulgil.com/world)에서 작품 감상 · 저서 〈아트로드〉(RHK, 2014)·〈아트로드, 한국을 담다〉(RHK, 2016)", "sourceUrl": "https://www.kimmulgil.com/world"}
 ];
-
+const THEME_KEYS = ['이동 자체가 목적','유연한 계획','문화적 개방성','동행 vs 고독','자신으로부터 도망칠 수 없다','노년의 여행과 죽음'];
 const THEME_KEYS = ['이동 자체가 목적','유연한 계획','문화적 개방성','동행 vs 고독','자신으로부터 도망칠 수 없다','노년의 여행과 죽음'];
 const FORM_KEYS = ['관찰','체화된 경험','조우'];
 
@@ -754,6 +784,8 @@ function entryHTML(r){
   const gcls = GRADE_CLASS[grade] || 'none';
   const gkind = grade==='강' ? 's' : (grade==='중' ? 'm' : '');
   const isMissing = String(r.quote||'').indexOf('원문 미확보') === 0;
+  const pagesRaw = String(r.pages||'').trim();
+  const pagesLabel = pagesRaw ? (/(쪽|일|개국|년)$/.test(pagesRaw) ? esc(pagesRaw) : esc(pagesRaw)+'쪽') : '';
   const themes = r._themes.length
     ? r._themes.map(k=>`<span class="tag-theme">${esc(k)}</span>`).join('')
     : `<span class="tag-none">6테마 미지정</span>`;
@@ -768,11 +800,12 @@ function entryHTML(r){
       <span class="e-book">${esc(r.text)}</span>
       <span class="e-author">${esc(r.author)}</span>
       ${grade && grade!=='-' ? `<span class="e-grade ${gkind}">논증 ${esc(grade)}</span>` : ''}
-      ${r.pages ? `<span class="e-pages">${esc(r.pages)}쪽</span>` : ''}
+      ${pagesLabel ? `<span class="e-pages">${pagesLabel}</span>` : ''}
     </div>
     <blockquote class="e-quote${isMissing?' missing':''}">${esc(r.quote)}</blockquote>
     <p class="e-sum">${esc(r.summary)}</p>
     <div class="e-tags">${themes}${forms}</div>
+    ${r.sourceUrl ? `<a class="e-source" href="${esc(r.sourceUrl)}" target="_blank" rel="noopener">공식 사이트에서 작품 보기 ↗</a>` : ''}
     <dl class="e-meta">
       <div><dt>대체불가능성 메커니즘</dt><dd>${esc(r.mech)}</dd></div>
       <div><dt>계보 위치</dt><dd>${esc(r.lineage)}</dd></div>
