@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Do We Travel? — 문학으로 읽는 여행 마인드맵</title>
+<meta name="description" content="몽테뉴·카뮈·헤세·존슨 등 여행 문학을 키워드로 엮은 인터랙티브 마인드맵. AI 시대에 인간에게 여행이 왜 필요한가를 묻는 연구 아카이브.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Why Do We Travel? — 문학으로 읽는 여행 마인드맵">
+<meta property="og:description" content="AI 시대, 몸으로 겪는 여행의 의미를 고전 문학과 인문·사회과학 텍스트로 탐색하는 인터랙티브 아카이브.">
+<meta property="og:locale" content="ko_KR">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F1ECE0;
+    --paper-deep:#E8E1D1;
+    --ink:#2B2620;
+    --ink-soft:#5B5346;
+    --line:#B8AF9E;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    background-image:
+      radial-gradient(ellipse at top left, rgba(0,0,0,0.02), transparent 60%),
+      radial-gradient(ellipse at bottom right, rgba(0,0,0,0.02), transparent 60%);
+    font-family:'Noto Sans KR', sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+  }
+
+  header{ padding:36px 32px 6px; text-align:center; }
+  header h1{
+    font-family:'Noto Serif KR', serif;
+    font-weight:700;
+    font-size:clamp(26px,4vw,38px);
+    margin:0 0 6px;
+    letter-spacing:-0.01em;
+  }
+  header p{ font-size:14px; color:var(--ink-soft); margin:0; font-weight:300; }
+  header .hint{ margin-top:10px; font-size:12.5px; color:var(--ink-soft); font-weight:300; }
+
+  .stage{
+    position:relative;
+    width:min(94vw, 980px);
+    aspect-ratio:1/1;
+    margin:20px auto 8px;
+  }
+  svg.lines{
+    position:absolute; inset:0; width:100%; height:100%;
+    overflow:visible; pointer-events:none;
+  }
+  svg.lines path{ fill:none; stroke-linecap:round; }
+  svg.lines path.l1{ stroke-width:1.5; opacity:0.8; }
+  svg.lines path.l2{ stroke-width:1.2; opacity:0; transition:opacity .2s ease; }
+  svg.lines path.l3{ stroke-width:1; opacity:0; transition:opacity .2s ease; }
+
+  .node{ position:absolute; transform:translate(-50%,-50%); cursor:pointer; user-select:none; text-align:center; }
+
+  .node.root{
+    width:118px;height:118px; border-radius:50%;
+    background:var(--ink); color:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Noto Serif KR', serif; font-weight:700; font-size:24px; letter-spacing:0.05em;
+    box-shadow:0 0 0 6px var(--paper), 0 0 0 7px var(--line);
+    z-index:5;
+  }
+  .node.root:hover{ transform:translate(-50%,-50%) scale(1.04); }
+
+  .node.kw1{
+    width:140px; padding:12px 9px; border-radius:6px;
+    background:var(--paper); border:1.6px solid var(--c);
+    z-index:4; transition:box-shadow .2s ease, transform .2s ease;
+  }
+  .node.kw1:hover{ box-shadow:3px 3px 0 0 var(--c); transform:translate(-50%,-50%) translate(-1.5px,-1.5px); }
+  .node.kw1.active{ background:var(--c); }
+  .node.kw1.active .k-title{ color:var(--paper); }
+  .node.kw1 .k-title{
+    font-family:'Noto Serif KR', serif; font-weight:600; font-size:15px; color:var(--c); line-height:1.32;
+  }
+
+  .node.kw2{
+    max-width:126px; padding:8px 12px; border-radius:12px;
+    background:var(--paper); border:1.3px solid var(--c);
+    font-size:12.5px; font-weight:500; color:var(--c); line-height:1.35;
+    opacity:0; pointer-events:none; transform:translate(-50%,-50%) scale(0.85);
+    transition:opacity .2s ease, transform .2s ease; z-index:3;
+  }
+  .node.kw2.show{ opacity:1; pointer-events:auto; transform:translate(-50%,-50%) scale(1); }
+  .node.kw2:hover{ background:var(--c); color:var(--paper); }
+  .node.kw2.active{ background:var(--c); color:var(--paper); }
+
+  .node.work{
+    max-width:112px; padding:6px 10px; border-radius:5px;
+    background:var(--paper); border:1px dashed var(--c);
+    font-size:11px; font-weight:400; color:var(--ink); line-height:1.3;
+    opacity:0; pointer-events:none; transform:translate(-50%,-50%) scale(0.85);
+    transition:opacity .2s ease, transform .2s ease; z-index:2;
+  }
+  .node.work.show{ opacity:1; pointer-events:auto; transform:translate(-50%,-50%) scale(1); }
+  .node.work:hover{ background:var(--c); color:var(--paper); border-style:solid; }
+  .node.work.selected{ background:var(--c); color:var(--paper); border-style:solid; }
+
+  .legend{
+    max-width:980px; margin:6px auto 40px; padding:0 24px;
+    display:flex; flex-wrap:wrap; gap:8px 18px; justify-content:center;
+    font-size:12px; color:var(--ink-soft);
+  }
+  .legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .legend i{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+
+  .panel{
+    position:fixed; top:0; right:0; height:100%; width:380px;
+    background:var(--paper-deep); border-left:1.5px solid var(--line);
+    transform:translateX(100%); transition:transform .3s ease;
+    z-index:20; padding:28px 26px; overflow-y:auto;
+  }
+  .panel.open{ transform:translateX(0); }
+  .panel .close{ position:absolute; top:20px; right:22px; background:none; border:none; font-size:20px; color:var(--ink-soft); cursor:pointer; line-height:1; }
+  .panel .tag{ display:inline-block; font-size:11px; font-weight:600; padding:3px 10px; border-radius:11px; color:var(--paper); margin-bottom:16px; }
+  .panel h2{ font-family:'Noto Serif KR', serif; font-weight:600; font-size:20px; margin:0 0 14px; line-height:1.4; }
+  .panel p{ font-size:14.5px; line-height:1.75; color:var(--ink); font-weight:300; margin:0; }
+  .panel .meta{ margin-top:22px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-soft); font-weight:300; }
+
+  .overlay{ position:fixed; inset:0; background:rgba(43,38,32,0.15); opacity:0; pointer-events:none; transition:opacity .3s ease; z-index:19; }
+  .overlay.open{ opacity:1; pointer-events:auto; }
+
+  @media (max-width:640px){
+    .panel{ width:100%; left:0; right:0; top:auto; bottom:0; height:auto; max-height:72vh; border-left:none; border-top:1.5px solid var(--line); border-radius:16px 16px 0 0; transform:translateY(100%); }
+    .panel.open{ transform:translateY(0); }
+    .node.root{ width:86px; height:86px; font-size:17px; }
+    .node.kw1{ width:98px; padding:8px 6px; }
+    .node.kw1 .k-title{ font-size:11.5px; }
+    .node.kw2{ max-width:92px; font-size:10px; padding:5px 8px; }
+    .node.work{ max-width:82px; font-size:9px; padding:4px 7px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>여행 마인드맵</h1>
+  <p>Why Do We Travel? · 키워드 중심 여행 인사이트 아카이브</p>
+  <p class="hint">키워드 → 측면 → 작가/작품 순으로 클릭해 펼치고, 작품을 클릭해 세부 내용을 확인하세요</p>
+</header>
+
+<div class="stage" id="stage">
+  <svg class="lines" id="lines" viewBox="0 0 1000 1000"></svg>
+</div>
+
+<div class="legend" id="legend"></div>
+
+<footer style="text-align:center;padding:0 24px 40px;font-size:12px;color:var(--ink-soft);font-weight:300;">
+  인문학 아카이브 × 웹 구현 · 한희정<br>
+  <a href="https://www.linkedin.com/in/YOUR-ID" style="color:inherit">LinkedIn</a>
+</footer>
+<div class="overlay" id="overlay"></div>
+<aside class="panel" id="panel">
+  <button class="close" id="closeBtn">×</button>
+  <div class="tag" id="panelTag"></div>
+  <h2 id="panelTitle"></h2>
+  <p id="panelBody"></p>
+  <div class="meta" id="panelMeta"></div>
+</aside>
+
+<script>
+const KEYWORDS = [
+  {
+    id:'self', label:'자아 탐구', color:'#6B2C2C',
+    aspects:[
+      { id:'self-exp', label:'경험적 측면', works:[
+        { title:'싯다르타 · 헤르만 헤세', detail:'강물 곁에서 보내는 시간이 관념적 깨달음이 아니라 몸으로 겪는 지속으로 그려진다. 자아를 찾는 일이 사유가 아니라 감각과 시간의 축적을 통해 이루어진다.' },
+        { title:'카뮈 여행산문', detail:'팔마 데 마요르카의 더위와 빛, 피로라는 육체적 조건이 사유의 매개가 된다. 자아와의 대면이 관념이 아니라 몸의 경험을 통과해 일어난다.' },
+        { title:'사고외주 · 홍진기', detail:'AI는 실패를 통해 정확도는 높일 수 있어도 그 의미를 해석하지 못한다. 당혹감·좌절감·후회 같은 감정이 다음 선택을 바꾸는 것은 인간만의 메커니즘이며, 이 축적이 스스로에 대한 신뢰를 만든다.' }
+      ]},
+      { id:'self-ref', label:'자아성찰적 측면', works:[
+        { title:'몽테뉴 『에세』', detail:'아무리 멀리 가도 결국 자기 자신을 데리고 다닐 수밖에 없다는 스토아적 통찰. 여행은 자신으로부터의 도피가 될 수 없다는 원형적 명제다.' },
+        { title:'라셀라스 · 새뮤얼 존슨', detail:'여섯 텍스트 중 유일하게 몽테뉴의 스토아적 전제가 반박 없이 그대로 확인된다. 관찰을 통한 여행조차 자기 자신의 한계를 벗어나지 못한다.' },
+        { title:'카뮈 여행산문', detail:'몽테뉴가 쓴 "자기 노출"의 비유를 이어받아, 이를 불안한 부조리와의 대면으로 급진화한다. 벌거벗음은 편안한 자기 인식이 아니라 실존적 위협이 된다.' }
+      ]}
+    ]
+  },
+  {
+    id:'purpose', label:'이동과 목적', color:'#B5833A',
+    aspects:[
+      { id:'p-move', label:'이동 자체가 목적', works:[
+        { title:'몽테뉴 『에세』', detail:'목적지에 도달하기 위한 수단이 아니라, 움직인다는 행위 자체가 여행의 본질이라는 태도. 이후 텍스트들이 비교·반박하는 원형적 기준이 된다.' },
+        { title:'문방구 에세이', detail:'문구라는 취향은 뚜렷하지만, 그것을 찾아가는 방식은 계획이 아니라 감각적 이끌림에 맡겨진다. 목적은 미니멀하고 경로는 열려 있다.' }
+      ]},
+      { id:'p-goal', label:'목표지향적 여행', works:[
+        { title:'꾸뻬 씨의 행복 여행 · 프랑수아 를로르', detail:'몽테뉴적 통찰이 "행복의 원칙 목록"이라는 명확한 목표로 압축·재포장된다. 여행이 답을 얻기 위한 도구가 된다.' },
+        { title:'라셀라스 · 새뮤얼 존슨', detail:'행복을 찾겠다는 뚜렷한 목적으로 세상을 관찰하지만, 목적이 있다고 답을 얻는 것은 아니라는 회의적 결론에 이른다.' }
+      ]}
+    ]
+  },
+  {
+    id:'plan', label:'계획과 우연', color:'#6E7F4F',
+    aspects:[
+      { id:'pl-flex', label:'유연한 계획', works:[
+        { title:'몽테뉴 『에세』', detail:'정해진 일정에 얽매이지 않고 상황에 따라 경로를 바꾸는 태도. 경직된 계획을 세우는 것 자체를 경계한다.' },
+        { title:'문방구 에세이', detail:'문구점을 지도에 찍어 찾아다니지 않아도 매번 문구 여행이 되고 만다는 것은, 계획 없이도 일관된 결과에 도달하는 열린 방법론을 보여준다.' }
+      ]},
+      { id:'pl-rigid', label:'경직된 계획 · 구조화', works:[
+        { title:'꾸뻬 씨의 행복 여행 · 프랑수아 를로르', detail:'행복의 조건들이 목록화되어 하나씩 확인하고 소비하는 형태로 구조화된다. 몽테뉴적 유연함과 대비된다.' }
+      ]}
+    ]
+  },
+  {
+    id:'culture', label:'타자와 문화', color:'#3E7A78',
+    aspects:[
+      { id:'c-open', label:'문화적 개방성', works:[
+        { title:'몽테뉴 『에세』', detail:'낯선 관습을 판단하지 않고 받아들이려는 태도. 다만 이는 완전한 동화가 아니라 자기 습관과의 긴장 속에서 이루어진다.' },
+        { title:'문방구 에세이', detail:'가이드북식 정보가 아니라 문구라는 사물을 매개로 도쿄·뉴욕·베트남의 성격을 감각적으로 포착한다. 관찰이 아니라 반복된 마주침을 통한 개방성이다.' }
+      ]},
+      { id:'c-contra', label:'자기모순 · 동화의 한계', works:[
+        { title:'몽테뉴 『에세』', detail:'낯선 문화를 개방적으로 받아들이려 하면서도 동시에 자신의 습관을 완전히 버리지 못하는 이중적 태도. 개방성과 정체성 사이의 긴장이다.' }
+      ]}
+    ]
+  },
+  {
+    id:'company', label:'동행과 고독', color:'#7A5C8E',
+    aspects:[
+      { id:'co-with', label:'동행', works:[
+        { title:'몽테뉴 『에세』', detail:'함께 여행하는 이와의 관계가 자아 인식에 미치는 영향. 다만 고독과의 긴장 속에서만 의미를 갖는다.' }
+      ]},
+      { id:'co-alone', label:'고독', works:[
+        { title:'몽테뉴 『에세』', detail:'홀로 여행하는 상태와 동행 사이를 오가며, 어느 한쪽으로 완전히 기울지 않는다.' },
+        { title:'싯다르타 · 헤르만 헤세', detail:'동행보다 홀로 머무는 시간이 깨달음의 조건으로 그려진다. 고독이 목적이 아니라 자아 해체의 통로가 된다.' },
+        { title:'카뮈 여행산문', detail:'낯선 도시 프라하에서 느끼는 고립감이 관광적 즐거움이 아니라 실존적 불안으로 그려진다.' }
+      ]}
+    ]
+  },
+  {
+    id:'time', label:'시간과 죽음', color:'#4F5768',
+    aspects:[
+      { id:'t-old', label:'노년의 여행', works:[
+        { title:'몽테뉴 『에세』', detail:'나이 들어서도 떠나는 것의 의미. 젊은 시절의 여행과는 다른 동기와 태도를 요구한다.' }
+      ]},
+      { id:'t-death', label:'죽음과의 대면', works:[
+        { title:'몽테뉴 『에세』', detail:'여행을 통해 죽음을 마주하는 태도. 육체의 쇠퇴 속에서도 이동을 멈추지 않는 것의 의미다. (다른 텍스트에서는 아직 다뤄지지 않음 — 추가 예정)' }
+      ]}
+    ]
+  },
+  {
+    id:'modes', label:'앎의 양식', color:'#A5573C',
+    aspects:[
+      { id:'m-obs', label:'관찰', works:[
+        { title:'라셀라스 · 새뮤얼 존슨', detail:'체화된 경험보다 세상을 관찰하고 판단하는 이성적 태도가 중심이 된다. 계몽주의적 여행관의 전형이다.' },
+        { title:'내 방 여행하는 법 · 메스트르', meta:'1장 11·13·16쪽 · 3장 17쪽 · 8장 37·39쪽', detail:'방 안에 머문 42일을 여행으로 규정하고(11쪽), 먼 길을 수고롭게 떠나는 여행자를 비웃으며 번거로움도 비용도 없는 여행을 권한다(16쪽). 성격과 재산, 나이와 상관없이 양식만 있으면 누구나 같은 여행을 할 수 있다고도 말한다(13쪽). 그러나 정작 바깥출입은 마음대로 할 수 없었다고 털어놓아 선택이 아닌 강제 체류였음이 드러나고(17쪽), 영혼만의 여행이 바람직하고 유용하다면서도 불리한 점이 있다고 인정하고(37쪽), 영혼이 여행을 떠난 사이 몸이 뜨거운 부집게를 잡아 손가락을 데는 일화(39쪽)로 몸의 대가가 완전히 사라지지 않음을 보여준다. 관찰과 상상 중심 여행의 경계 사례이자, 체화된 경험과 조우가 왜 필요한지를 대조로 드러내는 텍스트다.' }
+      ]},
+      { id:'m-embodied', label:'체화된 경험', works:[
+        { title:'싯다르타 · 헤르만 헤세', detail:'강물이라는 신체화된 시간의 경험이 지식 획득의 방식이 된다.' },
+        { title:'카뮈 여행산문', detail:'더위, 빛, 피로 같은 몸의 감각이 사유의 매개가 된다.' },
+        { title:'사고외주 · 홍진기', detail:'낯선 곳에 도착해 루틴이 깨지고 감각이 예민해지는 순간, AI보다 자신의 감각과 판단이 먼저 작동한다. AI가 제시하는 결과는 그럴듯해 보이나 실은 학습한 과거의 평균값일 뿐이라는 대비를 통해, 체화된 경험이 왜 대체 불가능한지 인지과학적으로 뒷받침한다.' }
+      ]},
+      { id:'m-encounter', label:'조우', works:[
+        { title:'문방구 에세이', detail:'반복적이고 우연한 마주침이 누적되어 도시에 대한 인식을 형성한다. AI가 대체하기 가장 어려운 앎의 양식이다.' }
+      ]}
+    ]
+  },
+  {
+    id:'function', label:'여행의 사회적 기능', color:'#9C4F6B',
+    aspects:[
+      { id:'f-civic', label:'시민 형성 · 통과의례', works:[
+        { title:'기나긴 청춘 · 장 비야르', meta:'정책·사회학 트랙 · 4장 · 62-63쪽 (몽테뉴 6테마 외 축)', detail:'국가 정체성은 추상적 교육이 아니라 직접 가 보며 형성된다는 주장. 16세가 된 청년 모두에게 10일간 국내 여행을 성인식 겸 의무로 제도화하자는 제안이다. 여행이 시민이 되는 통과의례로 기능한다.' }
+      ]},
+      { id:'f-access', label:'여가 접근 · 제도화', works:[
+        { title:'기나긴 청춘 · 장 비야르', meta:'정책·사회학 트랙 · 4장 · 68-69쪽 (몽테뉴 6테마 외 축)', detail:'문화부가 여름에 비는 대학 기숙사를 숙박으로 제공하고, 500유로 상당의 문화 패스로 비용 장벽을 낮추자는 구상. 국토 여행을 도서관·박물관 방문만큼 중요한 문화 접근권으로 본다.' }
+      ]}
+    ]
+  }
+];
+
+const CENTER = {x:500,y:500};
+const R1 = 190, R2 = 330, R3 = 440;
+const stage = document.getElementById('stage');
+const linesSvg = document.getElementById('lines');
+const legend = document.getElementById('legend');
+
+function polar(cx,cy,r,angleDeg){
+  const rad = angleDeg * Math.PI/180;
+  return { x: cx + r*Math.cos(rad), y: cy + r*Math.sin(rad) };
+}
+function pct(v){ return (v/10)+'%'; }
+function childAngles(baseAngle, n, spread){
+  if(n<=1) return [baseAngle];
+  const start = baseAngle - spread/2;
+  const step = spread/(n-1);
+  return Array.from({length:n}, (_,i)=> start + step*i);
+}
+function curvePath(p1,p2){
+  const mx=(p1.x+p2.x)/2, my=(p1.y+p2.y)/2;
+  const dx=p2.x-p1.x, dy=p2.y-p1.y;
+  const cx = mx - dy*0.12, cy = my + dx*0.12;
+  return `M ${p1.x} ${p1.y} Q ${cx} ${cy} ${p2.x} ${p2.y}`;
+}
+function addPath(p1,p2,color,cls){
+  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d', curvePath(p1,p2));
+  path.setAttribute('stroke', color);
+  path.classList.add(cls);
+  linesSvg.appendChild(path);
+  return path;
+}
+
+// root
+const rootEl = document.createElement('div');
+rootEl.className = 'node root';
+rootEl.style.left = '50%'; rootEl.style.top = '50%';
+rootEl.textContent = '여행';
+stage.appendChild(rootEl);
+rootEl.addEventListener('click', ()=>{
+  openPanel({
+    tag:'아카이브 전체', tagColor:'#2B2620',
+    title:'여행 아카이브 · 핵심 논지',
+    body:'AI가 노동과 매개된 경험을 더 많이 대체할수록, 몸으로 직접 겪는 경험에 대한 갈증은 오히려 커진다 — 이는 고전 여행 문학이 줄곧 주장해온 바이기도 하다. 이 마인드맵은 여행에 관한 핵심 키워드를 중심으로, 그 키워드가 각 텍스트에서 어떻게 다르게 변주되는지를 보여준다.',
+    meta:'키워드를 클릭해 펼쳐보세요'
+  });
+});
+
+const kwAngles = childAngles(-90, KEYWORDS.length, 360 - 360/KEYWORDS.length);
+// evenly distribute around full circle
+const evenAngles = KEYWORDS.map((_,i)=> -90 + (360/KEYWORDS.length)*i);
+
+const legendItems = [];
+
+KEYWORDS.forEach((kw, ki)=>{
+  const angle1 = evenAngles[ki];
+  const pos1 = polar(CENTER.x, CENTER.y, R1, angle1);
+
+  const kw1El = document.createElement('div');
+  kw1El.className = 'node kw1';
+  kw1El.style.left = pct(pos1.x); kw1El.style.top = pct(pos1.y);
+  kw1El.style.setProperty('--c', kw.color);
+  kw1El.innerHTML = `<div class="k-title">${kw.label}</div>`;
+  stage.appendChild(kw1El);
+  addPath(CENTER, pos1, kw.color, 'l1');
+  legendItems.push(`<span><i style="background:${kw.color}"></i>${kw.label}</span>`);
+
+  const aspectSpread = kw.aspects.length >= 3 ? 50 : 34;
+  const aAngles = childAngles(angle1, kw.aspects.length, aspectSpread);
+
+  const aspectEls = [];
+  const aspectLines = [];
+
+  kw.aspects.forEach((asp, ai)=>{
+    const pos2 = polar(CENTER.x, CENTER.y, R2, aAngles[ai]);
+    const kw2El = document.createElement('div');
+    kw2El.className = 'node kw2';
+    kw2El.style.left = pct(pos2.x); kw2El.style.top = pct(pos2.y);
+    kw2El.style.setProperty('--c', kw.color);
+    kw2El.textContent = asp.label;
+    stage.appendChild(kw2El);
+    aspectEls.push(kw2El);
+
+    const line2 = addPath(pos1, pos2, kw.color, 'l2');
+    aspectLines.push(line2);
+
+    const workSpread = asp.works.length >= 3 ? 40 : 24;
+    const wAngles = childAngles(aAngles[ai], asp.works.length, workSpread);
+
+    const workEls = [];
+    const workLines = [];
+
+    asp.works.forEach((w, wi)=>{
+      const pos3 = polar(CENTER.x, CENTER.y, R3, wAngles[wi]);
+      const workEl = document.createElement('div');
+      workEl.className = 'node work';
+      workEl.style.left = pct(pos3.x); workEl.style.top = pct(pos3.y);
+      workEl.style.setProperty('--c', kw.color);
+      workEl.textContent = w.title;
+      stage.appendChild(workEl);
+      workEls.push(workEl);
+
+      const line3 = addPath(pos2, pos3, kw.color, 'l3');
+      workLines.push(line3);
+
+      workEl.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        document.querySelectorAll('.node.work.selected').forEach(el=>el.classList.remove('selected'));
+        workEl.classList.add('selected');
+        openPanel({
+          tag: `${kw.label} · ${asp.label}`,
+          tagColor: kw.color,
+          title: w.title,
+          body: w.detail,
+          meta: w.meta || '작품을 다시 클릭하면 선택이 유지됩니다'
+        });
+      });
+    });
+
+    let aExpanded = false;
+    kw2El.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      aExpanded = !aExpanded;
+      kw2El.classList.toggle('active', aExpanded);
+      workEls.forEach(el=>el.classList.toggle('show', aExpanded));
+      workLines.forEach(l=> l.style.opacity = aExpanded ? 0.6 : 0);
+    });
+
+    // expose collapse function for parent keyword collapse cascade
+    kw2El._collapse = ()=>{
+      aExpanded = false;
+      kw2El.classList.remove('active');
+      workEls.forEach(el=>el.classList.remove('show'));
+      workLines.forEach(l=> l.style.opacity = 0);
+    };
+  });
+
+  let kExpanded = false;
+  kw1El.addEventListener('click', ()=>{
+    kExpanded = !kExpanded;
+    kw1El.classList.toggle('active', kExpanded);
+    aspectEls.forEach(el=>el.classList.toggle('show', kExpanded));
+    aspectLines.forEach(l=> l.style.opacity = kExpanded ? 0.6 : 0);
+    if(!kExpanded){
+      aspectEls.forEach(el=>{ if(el._collapse) el._collapse(); });
+    }
+  });
+});
+
+legend.innerHTML = legendItems.join('');
+
+// panel
+const panel = document.getElementById('panel');
+const overlay = document.getElementById('overlay');
+const panelTag = document.getElementById('panelTag');
+const panelTitle = document.getElementById('panelTitle');
+const panelBody = document.getElementById('panelBody');
+const panelMeta = document.getElementById('panelMeta');
+const closeBtn = document.getElementById('closeBtn');
+
+function openPanel({tag, tagColor, title, body, meta}){
+  panelTag.textContent = tag; panelTag.style.background = tagColor;
+  panelTitle.textContent = title; panelBody.textContent = body; panelMeta.textContent = meta || '';
+  panel.classList.add('open'); overlay.classList.add('open');
+}
+function closePanel(){
+  panel.classList.remove('open'); overlay.classList.remove('open');
+  document.querySelectorAll('.node.work.selected').forEach(el=>el.classList.remove('selected'));
+}
+closeBtn.addEventListener('click', closePanel);
+overlay.addEventListener('click', closePanel);
+</script>
+</body>
+</html>
